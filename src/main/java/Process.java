@@ -79,6 +79,7 @@ public class Process implements Runnable {
                         + new java.sql.Timestamp(date.getTime()) + "\""
                         + " WHERE username=\"" + username + "\""
                         + " AND user_password=\"" + password + "\";");
+                disconnect();
                 return true;
             } catch (SQLException e) {
                 if (e.getMessage() != null) optional = e.getMessage();
@@ -99,6 +100,7 @@ public class Process implements Runnable {
                 statement = connection.createStatement();
                 statement.executeUpdate("UPDATE users SET login=0"
                         + " WHERE username=\"" + username + "\";");
+                disconnect();
                 return true;
             } catch (SQLException e) {
                 if (e.getMessage() != null) optional = e.getMessage();
@@ -124,6 +126,15 @@ public class Process implements Runnable {
             if (Request.DEV_MODE) e.printStackTrace();
             System.out.println(clientData + " | Failed to connect to database.");
             return false;
+        }
+    }
+
+    private void disconnect(){
+        try{
+            connection.close();
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+            System.out.println(clientData + " | Failed to disconnect from database.");
         }
     }
 }
