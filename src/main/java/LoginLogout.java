@@ -8,6 +8,13 @@ public class LoginLogout {
         String optional = null;
         Date date = new Date();
         if (Connect.connect(clientData)){
+            //Check if user exists
+            if (!CheckExistence.userExists(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User not found.");
+                return false;
+            }
+
             try{
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("UPDATE users SET login=1, last_login=\""
@@ -31,6 +38,12 @@ public class LoginLogout {
         //Connect to database
         String optional = null;
         if (Connect.connect(clientData)){
+            if (!CheckExistence.userExists(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User not found.");
+                return false;
+            }
+
             try{
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("UPDATE users SET login=0"

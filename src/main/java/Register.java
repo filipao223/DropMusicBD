@@ -24,6 +24,8 @@ public class Register {
                         "(username, user_password, firstname, lastname, editor) VALUES " +
                         "(\"" + username + "\",\"" + password + "\"," +
                         "\"" + firstname + "\",\"" + lastname + "\"," + editor + ");");
+                statement.close();
+                Connect.disconnect(clientData);
                 return true;
             } catch (SQLException e) {
                 if (e.getMessage()!=null) optional = e.getMessage();

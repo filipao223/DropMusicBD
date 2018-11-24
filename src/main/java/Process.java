@@ -1,12 +1,8 @@
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.*;
-import java.util.Date;
 
 public class Process implements Runnable {
-    private static Connection connection;
-    private Statement statement;
     private Socket client;
     private Serializer serializer = new Serializer();
     private String clientData;
@@ -62,6 +58,10 @@ public class Process implements Runnable {
                 case Request.REGISTER:
                     if (Register.register(tokens[1], tokens[2], tokens[3], tokens[4], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Registered.");
+                    break;
+                case Request.MANAGE:
+                    if (Manage.makeEditor(tokens[1], tokens[2], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | Made \"" + tokens[2] + "\" an editor.");
                     break;
             }
         } catch (Exception e){

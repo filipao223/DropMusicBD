@@ -29,7 +29,7 @@ public class Client {
 
         try{
             Socket server = new Socket("localhost", PORT);
-            String message = "3_user2_password2_name1_name2";
+            String message = "4_user1_user2_name1_name2";
             DataOutputStream out = new DataOutputStream(server.getOutputStream());
             if (!serializer.writeMessage(out, message.getBytes(), message.length())){
                 System.out.println("Error writing message to server");
