@@ -18,11 +18,9 @@ public class Process implements Runnable {
     @Override
     public void run() {
         //Log some info
-        System.out.println("New client being processed, IP: " + client.getInetAddress().getHostAddress()
-                + " | Port: " + client.getLocalPort());
-
         clientData = "IP: " + client.getInetAddress().getHostAddress()
                 + " | Port: " + client.getLocalPort();
+        System.out.println("New client being processed, " + clientData);
 
         //Read the data sent
         byte[] buffer;
@@ -49,6 +47,7 @@ public class Process implements Runnable {
     private boolean handleRequest(String[] tokens){
         //Format: feature_username_sql
         //if login: feature_username_password
+        // TODO validate user data
 
         try{
             switch(Integer.parseInt(tokens[0])){
@@ -59,6 +58,11 @@ public class Process implements Runnable {
                 case Request.LOGOUT:
                     if (LoginLogout.logout(tokens[1], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Logged out.");
+                    break;
+                case Request.REGISTER:
+                    if (Register.register(tokens[1], tokens[2], tokens[3], tokens[4], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | Registered.");
+                    break;
             }
         } catch (Exception e){
             if (Request.DEV_MODE) e.printStackTrace();

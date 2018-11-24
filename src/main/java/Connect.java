@@ -8,7 +8,7 @@ public class Connect {
     public static boolean connect(String clientData){
         try{
             connection = DriverManager.getConnection("jdbc:mysql://localhost/dropmusic?" +
-                    "user=root&password=ProjetoBD2018");
+                    "user=root&password=ProjetoBD2018&useSSL=false");
             return true;
         } catch (SQLException e) {
             if (Request.DEV_MODE) e.printStackTrace();
