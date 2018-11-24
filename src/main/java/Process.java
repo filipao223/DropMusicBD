@@ -53,11 +53,11 @@ public class Process implements Runnable {
         try{
             switch(Integer.parseInt(tokens[0])){
                 case Request.LOGIN:
-                    if (login(tokens[1], tokens[2]))
+                    if (LoginLogout.login(tokens[1], tokens[2], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Logged in.");
                     break;
                 case Request.LOGOUT:
-                    if (logout(tokens[1]))
+                    if (LoginLogout.logout(tokens[1], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Logged out.");
             }
         } catch (Exception e){
@@ -68,73 +68,7 @@ public class Process implements Runnable {
         return false;
     }
 
-    private boolean login(String username, String password){
-        //Connect to database
-        String optional = null;
-        Date date = new Date();
-        if (connect()){
-            try{
-                statement = connection.createStatement();
-                statement.executeUpdate("UPDATE users SET login=1, last_login=\""
-                        + new java.sql.Timestamp(date.getTime()) + "\""
-                        + " WHERE username=\"" + username + "\""
-                        + " AND user_password=\"" + password + "\";");
-                disconnect();
-                return true;
-            } catch (SQLException e) {
-                if (e.getMessage() != null) optional = e.getMessage();
-                if (Request.DEV_MODE) e.printStackTrace();
-                System.out.println(clientData + " | " + username
-                        + " | Failed to login " + (optional==null?".":" | " + optional));
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private boolean logout(String username){
-        //Connect to database
-        String optional = null;
-        if (connect()){
-            try{
-                statement = connection.createStatement();
-                statement.executeUpdate("UPDATE users SET login=0"
-                        + " WHERE username=\"" + username + "\";");
-                disconnect();
-                return true;
-            } catch (SQLException e) {
-                if (e.getMessage() != null) optional = e.getMessage();
-                if (Request.DEV_MODE) e.printStackTrace();
-                System.out.println(clientData + " | " + username
-                        + " | Failed to log out " + (optional==null?".":" | " + optional));
-                return false;
-            }
-        }
-        return false;
-    }
-
     private String[] tokenizer(String main){
         return main.split("_");
-    }
-
-    private boolean connect(){
-        try{
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/dropmusic?" +
-                    "user=root&password=ProjetoBD2018");
-            return true;
-        } catch (SQLException e) {
-            if (Request.DEV_MODE) e.printStackTrace();
-            System.out.println(clientData + " | Failed to connect to database.");
-            return false;
-        }
-    }
-
-    private void disconnect(){
-        try{
-            connection.close();
-        } catch (SQLException e) {
-            if (Request.DEV_MODE) e.printStackTrace();
-            System.out.println(clientData + " | Failed to disconnect from database.");
-        }
     }
 }
