@@ -3,7 +3,6 @@ import java.sql.Statement;
 
 public class Critique {
     public static boolean critique(String username, String text, int rating, String albumName, String clientData){
-        // TODO Check if user already made critique
         String optional = null;
         //Connect to database
         if (Connect.connect(clientData)){
