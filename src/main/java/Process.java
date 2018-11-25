@@ -63,6 +63,10 @@ public class Process implements Runnable {
                     if (Manage.makeEditor(tokens[1], tokens[2], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Made \"" + tokens[2] + "\" an editor.");
                     break;
+                case Request.SEARCH:
+                    if (Search.search(tokens[2], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | Successful query.");
+                    break;
             }
         } catch (Exception e){
             if (Request.DEV_MODE) e.printStackTrace();
