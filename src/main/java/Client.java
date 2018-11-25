@@ -45,50 +45,186 @@ public class Client {
         Scanner keyboardScanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Diga o que deseja fazer(insira o número):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.See the details of a album\n7.See the details of a artist\n8.Write a critique to a album\n9.Give editing privileges\n13.Upload a music\n14.Share a music\n15.Download a music");
+            System.out.println("What do you want to do(inser the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n11.Upload a music\n12.Share musics\n13.Download a music");
             readKeyboard = keyboardScanner.nextLine();
             if (readKeyboard.matches(("1"))) {
-                String send, username, password;
-                System.out.println("Insira o seu nome de utilizador:\n");
+                String send = "1", username, password;
+                System.out.println("Insert your username:\n");
                 username = keyboardScanner.nextLine();
-                System.out.println("Insira a sua password:\n");
+                send.concat(username);
+                System.out.println("Insert your password:\n");
                 password = keyboardScanner.next();
-                send = "1".concat(username).concat(password);
+                send.concat(password).concat("sql");
             }
             else if (readKeyboard.matches("2")) {
-                String send, username;
-                System.out.println("Insira o seu nome de utilizador:\n");
+                String send = "2", username;
+                System.out.println("Insert your username:\n");
                 username = keyboardScanner.nextLine();
-                send = "2".concat(username);
+                send.concat(username).concat("sql");
             }
             else if (readKeyboard.matches("3")) {
-                String send, username, password;
-                System.out.println("Insira o seu nome de utilizador:\n");
+                String send = "3", username, password;
+                System.out.println("Insert your username:\n");
                 username = keyboardScanner.nextLine();
-                System.out.println("Insira a sua password:\n");
+                send.concat(username);
+                System.out.println("Insert your password:\n");
                 password = keyboardScanner.next();
-                send = "3".concat(username).concat(password);
+                send.concat("password").concat("sql");
             }
             else if (readKeyboard.matches("4")){
-                String send, username,acao,tipo,name;
-                System.out.println("Insira o seu nome de utilizador:\n");
+                String send ="4", username,acao,tipo,name,caracteristica,edit,value,add;
+                boolean isBirth = false;
+                System.out.println("Insert your username:\n");
                 username = keyboardScanner.nextLine();
-                System.out.println("Pretende alterar, remover ou adicionar?\n");
+                send.concat(username);
+                System.out.println("Do you want to alter, remove, or add\n");
                 acao = keyboardScanner.nextLine();
-                if(acao.matches("adicionar")){
-                    System.out.println("Artista,album ou musica?\n");
+                send.concat(acao);
+                if(acao.matches("add")){
+                    System.out.println("Artist,album or music?\n");
                     tipo = keyboardScanner.nextLine();
-                    System.out.println("Insira o nome do artista/album/musica\n");
+                    send.concat(tipo);
+                    System.out.println("Insert the name of the artist,album or music\n");
                     name = keyboardScanner.nextLine();
-                    send = "4".concat(username).concat(acao).concat(tipo).concat(name);
+                    send.concat(name);
+                    send.concat("sql");
                 }
-                else if(acao.matches("alterar")){
-                    System.out.println("Artista,album ou musica?\n");
+                else if(acao.matches("alter")){
+                    System.out.println("Artist,album or music??\n");
                     tipo = keyboardScanner.nextLine();
-                    if(tipo.matches("musica")){
+                    send.concat(tipo);
+                    if(tipo.matches("music")){
+                        System.out.println("What do you want to alter(name,year,lyrics,artist)?\n");
+                        caracteristica = keyboardScanner.nextLine();
+                        send.concat(caracteristica);
+                        if(caracteristica.matches("year")){
+                            isBirth = true;
+                        }
+                    }
+                    else if(tipo.matches("album")){
+                        System.out.println("What do you want to alter(name,year,description,artist,editor)?\n");
+                        caracteristica = keyboardScanner.nextLine();
+                        send.concat(caracteristica);
+                        if(caracteristica.matches("year")){
+                            isBirth = true;
+                        }
+                    }
+                    else if(tipo.matches("artist")){
+                        System.out.println("What do you want to alter(name,year,description?\n");
+                        caracteristica = keyboardScanner.nextLine();
+                        send.concat(caracteristica);
+                        if(caracteristica.matches("year")){
+                            isBirth = true;
+                        }
+                    }
 
+                    System.out.println("Which item is to be edited?:\n");
+                    edit = keyboardScanner.nextLine();
+                    send.concat(edit);
+
+                    System.out.println("New value?:\n");
+                    value = keyboardScanner.nextLine();
+                    send.concat(edit);
+
+                    //Birth date needs to be checked for proper format
+                    if (isBirth) {
+                        if (!value.matches("^\\s*(3[01]|[12][0-9]|0?[1-9])-(1[012]|0?[1-9])-((?:19|20)\\d{2})\\s*$")) {
+                            System.out.println("Bad date format, should be d-m-yyyy");
+                            break;
+                        }
                     }
                 }
+                else if(acao.matches("remove")){
+                    System.out.println("Remove a artist, album, or music?\n");
+                    tipo = keyboardScanner.nextLine();
+                    send.concat(tipo);
+                    System.out.println("Name?:\n");
+                    name = keyboardScanner.nextLine();
+                    send.concat(name);
+                }
+                send.concat("sql");
+            }
+            else if(readKeyboard.matches("5")){
+                String send = "5", username,tipo,name;
+                System.out.println("Insert your username:\n");
+                username = keyboardScanner.nextLine();
+                send.concat(username);
+                System.out.println("Artist,album or music??\n");
+                tipo = keyboardScanner.nextLine();
+                send.concat(tipo);
+                System.out.println("Insert the name of what you want to search\n");
+                name = keyboardScanner.nextLine();
+                send.concat(name);
+                send.concat("sql");
+            }
+            else if(readKeyboard.matches("6")){
+                String send = "6", username,name,critique;
+                System.out.println("Insert your username:\n");
+                username = keyboardScanner.nextLine();
+                send.concat(username);
+                System.out.println("Insert the name of the album\n");
+                name = keyboardScanner.nextLine();
+                send.concat(name);
+                System.out.println("What is the critique?\n");
+                critique = keyboardScanner.nextLine();
+                send.concat(critique);
+                send.concat("sql");
+            }
+            else if(readKeyboard.matches("7")){
+                String send = "7", username,target;
+                System.out.println("Insert your username:\n");
+                username = keyboardScanner.nextLine();
+                send.concat(username);
+                System.out.println("Insert the targer username\n");
+                target = keyboardScanner.nextLine();
+                send.concat(target);
+                send.concat("sql");
+            }
+            else if(readKeyboard.matches("11")){
+                String send = "7", username,music;
+                System.out.println("Insert your username:\n");
+                username = keyboardScanner.nextLine();
+                send.concat(username);
+                System.out.println("Music name?: ");
+                music = keyboardScanner.nextLine();
+                send.concat(music);
+                InetAddress ip = null;
+                try {
+                    ip = InetAddress.getLocalHost();
+                } catch (java.net.UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                String address = ip.getHostAddress();
+                send.concat(address);
+                send.concat("sql");
+            }
+            else if(readKeyboard.matches("12")){
+                String send = "12", username,target;
+                System.out.println("Insert your username:\n");
+                username = keyboardScanner.nextLine();
+                send.concat(username);
+                System.out.println("Insert the targer username\n");
+                target = keyboardScanner.nextLine();
+                send.concat(target);
+                send.concat("sql");
+            }
+            else if(readKeyboard.matches("13")){
+                String send = "13", username,music;
+                System.out.println("Insert your username:\n");
+                username = keyboardScanner.nextLine();
+                send.concat(username);
+                System.out.println("Music name?: ");
+                music = keyboardScanner.nextLine();
+                send.concat(music);
+                InetAddress ip = null;
+                try {
+                    ip = InetAddress.getLocalHost();
+                } catch (java.net.UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                String address = ip.getHostAddress();
+                send.concat(address);
+                send.concat("sql");
             }
         }
     }

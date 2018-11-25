@@ -25,4 +25,6 @@ public class Request {
 
     //Debug mode
     public static final boolean DEV_MODE = true;
+
+    //feature_username_sql
 }
