@@ -21,6 +21,13 @@ public class Critique {
                 return false;
             }
 
+            //Check if user already made critique to this album
+            if (CheckExistence.critiqueExists(username, albumName)){
+                System.out.println(clientData + " | " + username
+                        + " | " + albumName + " | User already made critique.");
+                return false;
+            }
+
             try{
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("INSERT INTO critique (c_text, rating, album_nalbum, users_user_id) " +

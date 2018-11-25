@@ -44,4 +44,21 @@ public class CheckExistence {
         }
         return false;
     }
+
+    public static boolean critiqueExists(String username, String albumName){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM critique " +
+                    "WHERE users_user_id=(" +
+                    "SELECT user_id FROM users WHERE username=\"" + username + "\") AND album_nalbum=(" +
+                    "SELECT nalbum FROM album WHERE album_name=\"" + albumName + "\");");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
 }
