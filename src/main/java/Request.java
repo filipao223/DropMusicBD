@@ -18,6 +18,10 @@ public class Request {
     protected static final int NEW_SERVER        = 17; //Novo servidor criado, novos pacotes podem escolhe-lo
     protected static final int SERVER_DOWN       = 18; //Servidor foi abaixo, novos pacotes não o escolhem
     protected static final int UPLOAD_MUSIC      = 19; //Upload de musicas para o servidor
+    protected static final int ADD_PLAYLIST      = 20; //Criar nova playlist
+    protected static final int REMOVE_PLAYLIST   = 21; //Remover uma playlist
+    protected static final int SHARE_PLAYLIST    = 22; //Tornar playlist publica/privada
+    protected static final int ADD_MUSIC_PLAYLIST= 23; //Adicionar musicas a uma playlist
 
     //Debug mode
     public static final boolean DEV_MODE = true;
