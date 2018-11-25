@@ -30,4 +30,18 @@ public class CheckExistence {
         }
         return false;
     }
+
+    public static boolean albumExists(String albumName){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM album WHERE album_name=\"" + albumName + "\";");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
 }

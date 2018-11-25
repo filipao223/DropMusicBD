@@ -59,13 +59,17 @@ public class Process implements Runnable {
                     if (Register.register(tokens[1], tokens[2], tokens[3], tokens[4], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Registered.");
                     break;
-                case Request.MANAGE:
+                case Request.MAKE_EDITOR:
                     if (Manage.makeEditor(tokens[1], tokens[2], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Made \"" + tokens[2] + "\" an editor.");
                     break;
                 case Request.SEARCH:
                     if (Search.search(tokens[2], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Successful query.");
+                    break;
+                case Request.CRITIQUE:
+                    if (Critique.critique(tokens[1], tokens[2], Integer.parseInt(tokens[3]), tokens[4], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[3] + " | Uploaded critique.");
                     break;
             }
         } catch (Exception e){
