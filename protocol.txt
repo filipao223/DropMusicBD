@@ -10,3 +10,5 @@ CRITIQUE
 6_username_text_rating_album
 MAKE EDITOR
 7_username_target
+ADD PLAYLIST
+13_username_playlistname
