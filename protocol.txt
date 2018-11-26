@@ -1,0 +1,12 @@
+LOGIN
+1_username_password
+LOGOUT
+2_username
+REGISTER
+3_username_password_firstname_lastname
+SEARCH
+5_username_sql
+CRITIQUE
+6_username_text_rating_album
+MAKE EDITOR
+7_username_target
