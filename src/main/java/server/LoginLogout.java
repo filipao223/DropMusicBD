@@ -1,10 +1,14 @@
+package server;
+
+import request.Request;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
 public class LoginLogout {
     public static boolean login(String username, String password, String clientData){
-        //Connect to database
+        //server.Connect to database
         String optional = null;
         Date date = new Date();
         if (Connect.connect(clientData)){
@@ -35,7 +39,7 @@ public class LoginLogout {
     }
 
     public static boolean logout(String username, String clientData){
-        //Connect to database
+        //server.Connect to database
         String optional = null;
         if (Connect.connect(clientData)){
             if (!CheckExistence.userExists(username)){

@@ -1,9 +1,13 @@
+package server;
+
+import request.Request;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Manage {
     public static boolean makeEditor(String username, String target, String clientData){
-        //Connect to database
+        //server.Connect to database
         String optional = null;
         if (Connect.connect(clientData)){
             try{

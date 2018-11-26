@@ -1,3 +1,7 @@
+package server;
+
+import request.Request;
+
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;

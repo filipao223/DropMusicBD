@@ -1,10 +1,14 @@
+package server;
+
+import request.Request;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Critique {
     public static boolean critique(String username, String text, int rating, String albumName, String clientData){
         String optional = null;
-        //Connect to database
+        //server.Connect to database
         if (Connect.connect(clientData)){
             //Check if user exists
             if (!CheckExistence.userExists(username)){

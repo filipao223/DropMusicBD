@@ -1,10 +1,14 @@
+package server;
+
+import request.Request;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Register {
     public static boolean register(String username, String password, String firstname, String lastname, String clientData){
-        //Connect to database
+        //server.Connect to database
         String optional = null;
         int editor = 0;
         if (Connect.connect(clientData)){

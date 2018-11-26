@@ -1,3 +1,7 @@
+package server;
+
+import request.Request;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -53,6 +57,20 @@ public class CheckExistence {
                     "WHERE users_user_id=(" +
                     "SELECT user_id FROM users WHERE username=\"" + username + "\") AND album_nalbum=(" +
                     "SELECT nalbum FROM album WHERE album_name=\"" + albumName + "\");");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean playlistExists(String name){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM playlist WHERE p_name=\"" + name + "\";");
             if (rs.next()){
                 return true;
             }

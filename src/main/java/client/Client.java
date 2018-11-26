@@ -1,3 +1,7 @@
+package client;
+
+import serializer.Serializer;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,7 +22,7 @@ public class Client {
     }
 
     private void startClient(){
-        //Request connection to database server
+        //request.Request connection to database server
         try{
             address = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
@@ -29,7 +33,8 @@ public class Client {
 
         try{
             Socket server = new Socket("localhost", PORT);
-            String message = "6_user1_very nice thing yes_2_album1";
+            String message = "13_user1_playlist1";
+            //String message = "3_user1_pass1_name1_last1";
             DataOutputStream out = new DataOutputStream(server.getOutputStream());
             if (!serializer.writeMessage(out, message.getBytes(), message.length())){
                 System.out.println("Error writing message to server");

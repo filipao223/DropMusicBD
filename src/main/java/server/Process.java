@@ -1,3 +1,8 @@
+package server;
+
+import request.Request;
+import serializer.Serializer;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -71,6 +76,9 @@ public class Process implements Runnable {
                     if (Critique.critique(tokens[1], tokens[2], Integer.parseInt(tokens[3]), tokens[4], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[3] + " | Uploaded critique.");
                     break;
+                case Request.ADD_PLAYLIST:
+                    if (Playlist.createPlaylist(tokens[1], tokens[2], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | Created playlist.");
             }
         } catch (Exception e){
             if (Request.DEV_MODE) e.printStackTrace();

@@ -1,3 +1,5 @@
+package server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,8 +10,8 @@ public class Server implements Runnable{
     private int PORT = 16667;
     private ExecutorService executor = Executors.newFixedThreadPool(5);
 
-    Server(){
-        System.out.println("Server is running.");
+    public Server(){
+        System.out.println("server.Server is running.");
     }
 
     @Override

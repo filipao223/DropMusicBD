@@ -1,3 +1,7 @@
+package server;
+
+import request.Request;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -7,7 +11,7 @@ import java.util.ArrayList;
 public class Search {
     public static boolean search(String query, String clientData){
         String optional = null;
-        //Connect to database
+        //server.Connect to database
         if (Connect.connect(clientData)){
             try{
                 Statement statement = Connect.connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
