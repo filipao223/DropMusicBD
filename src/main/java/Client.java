@@ -23,7 +23,7 @@ public class Client {
 
         String readKeyboard = "";
         Scanner keyboardScanner = new Scanner(System.in);
-        String user_name = "";
+        String user_name = " ";
         String send = "";
 
             System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n11.Upload a music\n12.Share musics\n13.Download a music\n20.Create a playlist\n21.Remove a playlist\n22.Turn a playlist public/private\n23.Add music to a playlist");
