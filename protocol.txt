@@ -14,3 +14,5 @@ ADD PLAYLIST
 13_username_playlistname
 ADD MUSIC TO PLAYLIST
 16_username_playlistname_music
+REMOVE PLAYLIST
+14_username_playlistname
