@@ -27,7 +27,7 @@ public class Playlist {
             try{
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("INSERT INTO playlist (p_name, private, users_user_id) " +
-                        "VALUES (p_name=\"" + name + "\",private=1,users_user_id=" +
+                        "VALUES (\"" + name + "\",1," +
                         "(SELECT user_id FROM users WHERE username=\"" + username + "\"));");
                 return true;
             } catch (SQLException e) {
