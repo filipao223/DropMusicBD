@@ -2,6 +2,7 @@ package server;
 
 import request.Request;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -42,7 +43,53 @@ public class Playlist {
         return false;
     }
 
-    public static boolean removePlaylist(){
+    public static boolean removePlaylist(String username, String playlist, String clientData){
+        String optional = null;
+        //Open database connection
+        if (Connect.connect(clientData)){
+            //Check if user exists
+            if (!CheckExistence.userExists(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User not found.");
+                return false;
+            }
+
+            //Check if playlist exists
+            if (!CheckExistence.playlistExists(playlist)){
+                System.out.println(clientData + " | " + username
+                        + " | Playlist not found.");
+                return false;
+            }
+
+            //Check if user owns the playlist
+            if (!Permission.ownsPlaylist(username, playlist)){
+                System.out.println(clientData + " | " + username
+                        + " | You don't own this playlist.");
+                return false;
+            }
+
+            //Delete the playlist (cascade delete will be on)
+            try{
+                Statement statement = Connect.connection.createStatement();
+                //Get playlist id from name
+                ResultSet rs = statement.executeQuery("SELECT nplaylist FROM playlist WHERE p_name=\"" + playlist + "\";");
+                if (!rs.next()){
+                    System.out.println(clientData + " | " + username
+                            + " | Failed to delete playlist.");
+                    return false;
+                }
+                int nplaylist = rs.getInt("nplaylist");
+                statement.executeUpdate("DELETE FROM playlist WHERE nplaylist=" + nplaylist + ";");
+                Connect.disconnect(clientData);
+                return true;
+            } catch (SQLException e) {
+                if (e.getMessage() != null) optional = e.getMessage();
+                if (Request.DEV_MODE) e.printStackTrace();
+                System.out.println(clientData + " | " + username
+                        + " | Failed to delete playlist " + (optional==null?".":" | " + optional));
+                return false;
+            }
+        }
         return false;
     }
 
