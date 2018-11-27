@@ -134,15 +134,23 @@ public class Client {
                 }
             }
             else if(readKeyboard.matches("5")){
-                String tipo,name;
+                String tipo,name,sql = "";
                 send = "5_";
                 send = send.concat(user_name).concat("_");
                 System.out.println("Artist,album or music?");
                 tipo = keyboardScanner.nextLine();
-                send = send.concat(tipo).concat("_");
                 System.out.println("Insert the name of what you want to search");
                 name = keyboardScanner.nextLine();
-                send = send.concat(name);
+                if(tipo.matches("artist")){
+                    sql = "Select *, FROM artist WHERE a_name =\"' + name + '\";";
+                }
+                else if(tipo.matches("album")){
+                    sql = "Select *, FROM album WHERE album_name =\"' + name + '\";";
+                }
+                else if(tipo.matches("music")){
+                    sql = "Select *, FROM music WHERE m_name =\"' + name + '\";";
+                }
+                send = send.concat(sql);
                 System.out.println(send);
             }
             else if(readKeyboard.matches("6")){
