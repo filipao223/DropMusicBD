@@ -64,6 +64,13 @@ public class Playlist {
                 return false;
             }
 
+            //Check if user owns the playlist
+            if (!Permission.ownsPlaylist(username, playlist)){
+                System.out.println(clientData + " | " + username
+                        + " | You don't own this playlist.");
+                return false;
+            }
+
             //Check if music exists
             if (!CheckExistence.musicExists(music)){
                 System.out.println(clientData + " | " + username
@@ -80,7 +87,11 @@ public class Playlist {
                 Connect.disconnect(clientData);
                 return true;
             } catch (SQLException e) {
-                e.printStackTrace();
+                if (e.getMessage() != null) optional = e.getMessage();
+                if (Request.DEV_MODE) e.printStackTrace();
+                System.out.println(clientData + " | " + username
+                        + " | Failed to add music to playlist " + (optional==null?".":" | " + optional));
+                return false;
             }
         }
         return false;
