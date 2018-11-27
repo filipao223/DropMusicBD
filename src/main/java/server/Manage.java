@@ -41,6 +41,7 @@ public class Manage {
                 //Make target user an editor
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("UPDATE users SET editor=1 WHERE username=\"" + target + "\";");
+                Connect.disconnect(clientData);
                 return true;
 
             } catch (SQLException e) {

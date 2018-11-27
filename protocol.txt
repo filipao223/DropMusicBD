@@ -12,3 +12,5 @@ MAKE EDITOR
 7_username_target
 ADD PLAYLIST
 13_username_playlistname
+ADD MUSIC TO PLAYLIST
+16_username_playlistname_music

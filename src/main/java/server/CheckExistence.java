@@ -79,4 +79,18 @@ public class CheckExistence {
         }
         return false;
     }
+
+    public static boolean musicExists(String music){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM music WHERE m_name=\"" + music + "\";");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
 }

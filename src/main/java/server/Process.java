@@ -79,6 +79,9 @@ public class Process implements Runnable {
                 case Request.ADD_PLAYLIST:
                     if (Playlist.createPlaylist(tokens[1], tokens[2], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | Created playlist.");
+                case Request.ADD_MUSIC_PLAYLIST:
+                    if (Playlist.addMusicToPlaylist(tokens[1], tokens[2], tokens[3], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | " + tokens[3] + " | Added music to playlist.");
             }
         } catch (Exception e){
             if (Request.DEV_MODE) e.printStackTrace();

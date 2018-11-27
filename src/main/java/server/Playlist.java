@@ -29,6 +29,7 @@ public class Playlist {
                 statement.executeUpdate("INSERT INTO playlist (p_name, private, users_user_id) " +
                         "VALUES (\"" + name + "\",1," +
                         "(SELECT user_id FROM users WHERE username=\"" + username + "\"));");
+                Connect.disconnect(clientData);
                 return true;
             } catch (SQLException e) {
                 if (e.getMessage() != null) optional = e.getMessage();
@@ -45,7 +46,43 @@ public class Playlist {
         return false;
     }
 
-    public static boolean addMusicToPlaylist(){
+    public static boolean addMusicToPlaylist(String username, String playlist, String music, String clientData){
+        String optional = null;
+        //Open a database connection
+        if (Connect.connect(clientData)){
+            //Check if user exists
+            if (!CheckExistence.userExists(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User not found.");
+                return false;
+            }
+
+            //Check if playlist exists
+            if (!CheckExistence.playlistExists(playlist)){
+                System.out.println(clientData + " | " + username
+                        + " | Playlist not found.");
+                return false;
+            }
+
+            //Check if music exists
+            if (!CheckExistence.musicExists(music)){
+                System.out.println(clientData + " | " + username
+                        + " | Music not found.");
+                return false;
+            }
+
+            try{
+                //Add playlist_music table
+                Statement statement = Connect.connection.createStatement();
+                statement.executeUpdate("INSERT INTO playlist_music (playlist_nplaylist, music_nmusic) " +
+                        "VALUES ((SELECT nplaylist FROM playlist WHERE p_name=\"" + playlist + "\")," +
+                        "(SELECT nmusic FROM music WHERE m_name=\"" + music + "\"));");
+                Connect.disconnect(clientData);
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return false;
     }
 }
