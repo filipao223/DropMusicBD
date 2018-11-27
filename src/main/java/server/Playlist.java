@@ -47,24 +47,8 @@ public class Playlist {
         String optional = null;
         //Open database connection
         if (Connect.connect(clientData)){
-            //Check if user exists
-            if (!CheckExistence.userExists(username)){
-                System.out.println(clientData + " | " + username
-                        + " | User not found.");
-                return false;
-            }
-
-            //Check if playlist exists
-            if (!CheckExistence.playlistExists(playlist)){
-                System.out.println(clientData + " | " + username
-                        + " | Playlist not found.");
-                return false;
-            }
-
-            //Check if user owns the playlist
-            if (!Permission.ownsPlaylist(username, playlist)){
-                System.out.println(clientData + " | " + username
-                        + " | You don't own this playlist.");
+            //Basic checks
+            if (!checkExistenceAndOwner(username, playlist, clientData)){
                 return false;
             }
 
@@ -97,24 +81,8 @@ public class Playlist {
         String optional = null;
         //Open a database connection
         if (Connect.connect(clientData)){
-            //Check if user exists
-            if (!CheckExistence.userExists(username)){
-                System.out.println(clientData + " | " + username
-                        + " | User not found.");
-                return false;
-            }
-
-            //Check if playlist exists
-            if (!CheckExistence.playlistExists(playlist)){
-                System.out.println(clientData + " | " + username
-                        + " | Playlist not found.");
-                return false;
-            }
-
-            //Check if user owns the playlist
-            if (!Permission.ownsPlaylist(username, playlist)){
-                System.out.println(clientData + " | " + username
-                        + " | You don't own this playlist.");
+            //Basic checks
+            if (!checkExistenceAndOwner(username, clientData, playlist)){
                 return false;
             }
 
@@ -148,24 +116,8 @@ public class Playlist {
         String optional = null;
         //Open a database connection
         if (Connect.connect(clientData)){
-            //Check if user exists
-            if (!CheckExistence.userExists(username)){
-                System.out.println(clientData + " | " + username
-                        + " | User not found.");
-                return false;
-            }
-
-            //Check if playlist exists
-            if (!CheckExistence.playlistExists(playlist)){
-                System.out.println(clientData + " | " + username
-                        + " | Playlist not found.");
-                return false;
-            }
-
-            //Check if user owns the playlist
-            if (!Permission.ownsPlaylist(username, playlist)){
-                System.out.println(clientData + " | " + username
-                        + " | You don't own this playlist.");
+            //Basic checks
+            if (!checkExistenceAndOwner(username, clientData, playlist)){
                 return false;
             }
 
@@ -192,5 +144,54 @@ public class Playlist {
             }
         }
         return false;
+    }
+
+    public static boolean sharePlaylist(String username, String playlist, String clientData){
+        String optional = null;
+        //Open a database connection
+        if (Connect.connect(clientData)){
+            if (!checkExistenceAndOwner(username, clientData, playlist)){
+                return false;
+            }
+
+            //Make the playlist public
+            try{
+                Statement statement = Connect.connection.createStatement();
+                statement.executeUpdate("UPDATE playlist SET private=0 WHERE p_name=\"" + playlist + "\";");
+                Connect.disconnect(clientData);
+                return true;
+            } catch (SQLException e) {
+                if (e.getMessage() != null) optional = e.getMessage();
+                if (Request.DEV_MODE) e.printStackTrace();
+                System.out.println(clientData + " | " + username
+                        + " | Failed to make playlist public " + (optional==null?".":" | " + optional));
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkExistenceAndOwner(String username, String clientData, String playlist){
+        //Check if user exists
+        if (!CheckExistence.userExists(username)){
+            System.out.println(clientData + " | " + username
+                    + " | User not found.");
+            return false;
+        }
+
+        //Check if playlist exists
+        if (!CheckExistence.playlistExists(playlist)){
+            System.out.println(clientData + " | " + username
+                    + " | Playlist not found.");
+            return false;
+        }
+
+        //Check if user owns the playlist
+        if (!Permission.ownsPlaylist(username, playlist)){
+            System.out.println(clientData + " | " + username
+                    + " | You don't own this playlist.");
+            return false;
+        }
+        return true;
     }
 }

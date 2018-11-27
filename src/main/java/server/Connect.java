@@ -23,7 +23,9 @@ public class Connect {
 
     public static void disconnect(String clientData){
         try{
-            connection.close();
+            if (connection != null){
+                connection.close();
+            }
         } catch (SQLException e) {
             if (Request.DEV_MODE) e.printStackTrace();
             System.out.println(clientData + " | Failed to disconnect from database.");

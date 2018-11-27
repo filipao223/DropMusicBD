@@ -92,7 +92,12 @@ public class Process implements Runnable {
                     if (Playlist.removePlaylist(tokens[1], tokens[2], clientData))
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Removed playlist.");
                     break;
+                case Request.SHARE_PLAYLIST:
+                    if (Playlist.sharePlaylist(tokens[1], tokens[2], clientData))
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Shared playlist.");
+                    break;
             }
+            Connect.disconnect(clientData);
         } catch (Exception e){
             if (Request.DEV_MODE) e.printStackTrace();
             System.out.println(clientData + " | Failed to handle request.");
