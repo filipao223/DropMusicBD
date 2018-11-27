@@ -93,4 +93,24 @@ public class CheckExistence {
         }
         return false;
     }
+
+    public static int[] playlistHasMusic(String playlist, String music){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM playlist_music WHERE playlist_nplaylist=" +
+                    "(SELECT nplaylist FROM playlist WHERE p_name=\"" + playlist + "\") AND music_nmusic=(SELECT nmusic FROM music WHERE m_name=\"" + music + "\");");
+            if (rs.next()){
+                //Exists
+                int[] keys = new int[2];
+                keys[0] = rs.getInt("playlist_nplaylist");
+                keys[1] = rs.getInt("music_nmusic");
+                return keys;
+            }
+            return null;
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return null;
+    }
 }

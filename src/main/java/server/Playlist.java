@@ -143,4 +143,54 @@ public class Playlist {
         }
         return false;
     }
+
+    public static boolean removeMusicFromPlaylist(String username, String playlist, String music, String clientData){
+        String optional = null;
+        //Open a database connection
+        if (Connect.connect(clientData)){
+            //Check if user exists
+            if (!CheckExistence.userExists(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User not found.");
+                return false;
+            }
+
+            //Check if playlist exists
+            if (!CheckExistence.playlistExists(playlist)){
+                System.out.println(clientData + " | " + username
+                        + " | Playlist not found.");
+                return false;
+            }
+
+            //Check if user owns the playlist
+            if (!Permission.ownsPlaylist(username, playlist)){
+                System.out.println(clientData + " | " + username
+                        + " | You don't own this playlist.");
+                return false;
+            }
+
+            //Check if playlist has the music
+            int[] keysToDelete = CheckExistence.playlistHasMusic(playlist, music);
+            if (keysToDelete == null){
+                System.out.println(clientData + " | " + username
+                        + " | Music not found in the playlist.");
+                return false;
+            }
+
+            //Delete the music from the playlist
+            try{
+                Statement statement = Connect.connection.createStatement();
+                statement.executeUpdate("DELETE FROM playlist_music WHERE playlist_nplaylist=" + keysToDelete[0] + " AND music_nmusic=" + keysToDelete[1] + ";");
+                Connect.disconnect(clientData);
+                return true;
+            } catch (SQLException e) {
+                if (e.getMessage() != null) optional = e.getMessage();
+                if (Request.DEV_MODE) e.printStackTrace();
+                System.out.println(clientData + " | " + username
+                        + " | Failed to remove music from playlist " + (optional==null?".":" | " + optional));
+                return false;
+            }
+        }
+        return false;
+    }
 }

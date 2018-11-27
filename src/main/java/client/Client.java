@@ -33,7 +33,7 @@ public class Client {
 
         try{
             Socket server = new Socket("localhost", PORT);
-            String message = "14_user1_play1";
+            String message = "17_user2_play2_music2";
             //String message = "3_user1_pass1_name1_last1";
             DataOutputStream out = new DataOutputStream(server.getOutputStream());
             if (!serializer.writeMessage(out, message.getBytes(), message.length())){
