@@ -64,65 +64,131 @@ public class Client {
                 send = send.concat(last);
             }
             else if (readKeyboard.matches("4")){
-                String acao,tipo,name,caracteristica,edit,value,add;
+                String acao,tipo,name,caracteristica,edit,value,add,sql = "",artist;
                 send ="4_";
-                boolean isBirth = false;
                 send = send.concat(user_name).concat("_");
                 System.out.println("Do you want to alter, remove, or add?");
                 acao = keyboardScanner.nextLine();
-                send = send.concat(acao).concat("_");
+                //send = send.concat(acao).concat("_");
                 if(acao.matches("add")){
                     System.out.println("Artist,album or music?");
                     tipo = keyboardScanner.nextLine();
-                    send = send.concat(tipo).concat("_");
-                    System.out.println("Insert the name of the artist,album or music");
+                    System.out.println("What is the name?");
                     name = keyboardScanner.nextLine();
-                    send = send.concat(name);
+                    if(tipo.matches("artist")){
+                        sql = "INSERT INTO artist (name) VALUES (\"" + name + "\");";
+                    }
+                    else if(tipo.matches("album")){
+                        System.out.println("What is the name of the artist that the album belongs to?");
+                        artist = keyboardScanner.nextLine();
+                        sql = "INSERT INTO album (name,artist_nartist) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + name + "\"));";
+                    }
+                    else if(tipo.matches("music")){
+                        System.out.println("What is the name of the artist that the album belongs to?");
+                        artist = keyboardScanner.nextLine();
+                        sql = "INSERT INTO album (name,artist_nartist,users_user_id) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + name + "\"),(SELECT user_id FROM users WHERE username = \"" + user_name +"\");";
+                    }
+                    send = send.concat(sql);
+                    System.out.println(send);
                 }
                 else if(acao.matches("alter")){
                     System.out.println("Artist,album or music?");
                     tipo = keyboardScanner.nextLine();
-                    send = send.concat(tipo).concat("_");
                     if(tipo.matches("music")){
-                        System.out.println("What do you want to alter(name,year,lyrics,artist)?");
+                        System.out.println("What do you want to alter(name,year,lyrics)?");
                         caracteristica = keyboardScanner.nextLine();
-                        send = send.concat(caracteristica).concat("_");
                         if(caracteristica.matches("year")){
-                            isBirth = true;
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            if (!value.matches("^\\s*(3[01]|[12][0-9]|0?[1-9])-(1[012]|0?[1-9])-((?:19|20)\\d{2})\\s*$")) {
+                                System.out.println("Bad date format, should be d-m-yyyy");
+                                send = "";
+                            }
+                            else{
+                                sql = "UPDATE music SET day_of_creation = \"" + value + "\" WHERE m_name = \"" + edit + "\"";
+                            }
+                        }
+                        else if(caracteristica.matches("name")){
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            sql = "UPDATE music SET m_name = \"" + value + "\" WHERE m_name = \"" + edit + "\"";
+                        }
+                        else if(caracteristica.matches("lyrics")){
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            sql = "UPDATE music SET lyrics = \"" + value + "\" WHERE m_name = \"" + edit + "\"";
                         }
                     }
                     else if(tipo.matches("album")){
-                        System.out.println("What do you want to alter(name,year,description,artist,editor)?");
+                        System.out.println("What do you want to alter(name,year,description)?");
                         caracteristica = keyboardScanner.nextLine();
-                        send = send.concat(caracteristica).concat("_");
                         if(caracteristica.matches("year")){
-                            isBirth = true;
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            if (!value.matches("^\\s*(3[01]|[12][0-9]|0?[1-9])-(1[012]|0?[1-9])-((?:19|20)\\d{2})\\s*$")) {
+                                System.out.println("Bad date format, should be d-m-yyyy");
+                                send = "";
+                            }
+                            else{
+                                sql = "UPDATE album SET day_of_creation = \"" + value + "\" WHERE album_name = \"" + edit + "\"";
+                            }
+                        }
+                        else if(caracteristica.matches("name")){
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            sql = "UPDATE album SET album_name = \"" + value + "\" WHERE album_name = \"" + edit + "\"";
+                        }
+                        else if(caracteristica.matches("description")){
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            sql = "UPDATE album SET a_description = \"" + value + "\" WHERE album_name = \"" + edit + "\"";
                         }
                     }
                     else if(tipo.matches("artist")){
-                        System.out.println("What do you want to alter(name,year,description?");
+                        System.out.println("What do you want to alter(name,year,description)?");
                         caracteristica = keyboardScanner.nextLine();
-                        send = send.concat(caracteristica).concat("_");
                         if(caracteristica.matches("year")){
-                            isBirth = true;
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            if (!value.matches("^\\s*(3[01]|[12][0-9]|0?[1-9])-(1[012]|0?[1-9])-((?:19|20)\\d{2})\\s*$")) {
+                                System.out.println("Bad date format, should be d-m-yyyy");
+                                send = "";
+                            }
+                            else{
+                                sql = "UPDATE artist SET date_of_birth = \"" + value + "\" WHERE a_name = \"" + edit + "\"";
+                            }
+                        }
+                        else if(caracteristica.matches("name")){
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            sql = "UPDATE artist SET a_name = \"" + value + "\" WHERE a_name = \"" + edit + "\"";
+                        }
+                        else if(caracteristica.matches("description")){
+                            System.out.println("Which item is to be edited(name)?");
+                            edit = keyboardScanner.nextLine();
+                            System.out.println("New value?:");
+                            value = keyboardScanner.nextLine();
+                            sql = "UPDATE artist SET a_description = \"" + value + "\" WHERE a_name = \"" + edit + "\"";
                         }
                     }
-
-                    System.out.println("Which item is to be edited?:");
-                    edit = keyboardScanner.nextLine();
-                    send = send.concat(edit).concat("_");
-
-                    System.out.println("New value?:");
-                    value = keyboardScanner.nextLine();
-                    send = send.concat(value);
-
-                    //Birth date needs to be checked for proper format
-                    if (isBirth) {
-                        if (!value.matches("^\\s*(3[01]|[12][0-9]|0?[1-9])-(1[012]|0?[1-9])-((?:19|20)\\d{2})\\s*$")) {
-                            System.out.println("Bad date format, should be d-m-yyyy");
-                            send = "";
-                        }
-                    }
+                    send = send.concat(sql);
+                    System.out.println(send);
                 }
                 else if(acao.matches("remove")){
                     System.out.println("Remove a artist, album, or music?");
@@ -142,13 +208,13 @@ public class Client {
                 System.out.println("Insert the name of what you want to search");
                 name = keyboardScanner.nextLine();
                 if(tipo.matches("artist")){
-                    sql = "Select *, FROM artist WHERE a_name =\"' + name + '\";";
+                    sql = "Select * FROM artist WHERE a_name =\"" + name + "\";";
                 }
                 else if(tipo.matches("album")){
-                    sql = "Select *, FROM album WHERE album_name =\"' + name + '\";";
+                    sql = "Select * FROM album WHERE album_name =\"" + name + "\";";
                 }
                 else if(tipo.matches("music")){
-                    sql = "Select *, FROM music WHERE m_name =\"' + name + '\";";
+                    sql = "Select * FROM music WHERE m_name =\"" + name + "\";";
                 }
                 send = send.concat(sql);
                 System.out.println(send);
