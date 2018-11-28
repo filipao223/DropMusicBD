@@ -1,4 +1,6 @@
-import java.sql.*;
+package main;
+
+import server.Server;
 
 public class Main {
 

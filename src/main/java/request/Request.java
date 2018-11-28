@@ -17,6 +17,7 @@ public class Request {
     public static final int REMOVE_PLAYLIST   = 14; //Remover uma playlist
     public static final int SHARE_PLAYLIST    = 15; //Tornar playlist publica/privada
     public static final int ADD_MUSIC_PLAYLIST= 16; //Adicionar musicas a uma playlist
+    public static final int DEL_MUSIC_PLAYLIST= 17; //Remover uma musica de uma playlist
 
     //Debug mode
     public static final boolean DEV_MODE = true;

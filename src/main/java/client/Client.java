@@ -1,3 +1,7 @@
+package client;
+
+import serializer.Serializer;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -10,11 +14,11 @@ public class Client {
     private String address;
     private Serializer serializer = new Serializer();
 
-    Client() {
+    Client(){
         startClient();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         new Client();
     }
 
@@ -320,8 +324,7 @@ public class Client {
     }
     private void startClient() {
         //Request connection to database server
-
-        try {
+        try{
             address = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -329,7 +332,7 @@ public class Client {
             return;
         }
 
-        try {
+        try{
             Socket server = new Socket("localhost", PORT);
             while(true){
                 String message = message();
