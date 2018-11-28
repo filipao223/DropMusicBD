@@ -188,6 +188,11 @@ public class Manage {
                         return true;
                     }
                     break;
+                case "album":
+                    if (deleteAlbum(username, name, clientData)){
+                        return true;
+                    }
+                    break;
             }
         }
         return false;
@@ -277,6 +282,45 @@ public class Manage {
                 int id = rs.getInt("nartist");
                 //Delete music
                 statement.executeUpdate("DELETE FROM artist WHERE nartist=" + id + ";");
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean deleteAlbum(String username, String album, String clientData){
+        //Check if album exists
+        if (!CheckExistence.albumExists(album)){
+            System.out.println(clientData + " | " + username
+                    + " | Album not found.");
+            return false;
+        }
+
+        //Check if this album has any music
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM music_album WHERE album_nalbum=" +
+                    "(SELECT nalbum FROM album WHERE album_name=\"" + album + "\")");
+            if (rs.next()){
+                System.out.println(clientData + " | " + username
+                        + " | Album has one or more music.");
+                return false;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+
+        //Delete the album
+        try{
+            Statement statement = Connect.connection.createStatement();
+            //Get artist ID
+            ResultSet rs = statement.executeQuery("SELECT nalbum FROM album WHERE album_name=\"" + album + "\";");
+            if (rs.next()){
+                int id = rs.getInt("nalbum");
+                //Delete music
+                statement.executeUpdate("DELETE FROM album WHERE nalbum=" + id + ";");
                 return true;
             }
         } catch (SQLException e) {
