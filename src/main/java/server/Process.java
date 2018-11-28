@@ -123,10 +123,15 @@ public class Process implements Runnable {
                     }
                     break;
                 case Request.UPLOAD:
-                    System.out.println("Starting upload");
                     if (Upload.upload(client, tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2].split("\\.")[0] + " | Music uploaded.");
                         callbackMessage = "Music uploaded";
+                    }
+                    break;
+                case Request.MANAGE:
+                    if (RunSQL.runSQL(tokens[2], clientData)){
+                        System.out.println(clientData + " | " + tokens[1] + " | Successful manage.");
+                        callbackMessage = "Successful manage";
                     }
                     break;
             }

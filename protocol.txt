@@ -4,6 +4,8 @@ LOGOUT
 2_username
 REGISTER
 3_username_password_firstname_lastname
+MANAGE
+4_username_sql
 SEARCH
 5_username_sql
 CRITIQUE
