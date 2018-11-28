@@ -41,7 +41,7 @@ public class Client {
         //String user_name = "";
         String send = "";
 
-            System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n8.Upload a music\n9.Share musics\n10.Download a music\n13.Create a playlist\n14.Remove a playlist\n15.Turn a playlist public/private\n16.Add music to a playlist");
+            System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n8.Upload a music\n9.Share musics\n10.Download a music\n13.Create a playlist\n14.Remove a playlist\n15.Turn a playlist public/private\n16.Add music to a playlist\n17.Remove a music from a playlist\n18.Add a music to a album\n19.Delete a music from a album");
             readKeyboard = keyboardScanner.nextLine();
             if (readKeyboard.matches(("1"))) {
                 if (!loggedIn){
@@ -393,6 +393,57 @@ public class Client {
                     System.out.println("What is the playlist name");
                     playlist_name = keyboardScanner.nextLine();
                     send = send.concat(playlist_name).concat("|");
+                    System.out.println("What is the music name");
+                    music_name = keyboardScanner.nextLine();
+                    send = send.concat(music_name);
+                }
+                else{
+                    System.out.println(NO_LOGIN);
+                    return null;
+                }
+            }
+            else if(readKeyboard.matches("17")){
+                if (loggedIn){
+                    String playlist_name,music_name;
+                    send = "17|";
+                    send = send.concat(this.username).concat("|");
+                    System.out.println("What is the playlist name");
+                    playlist_name = keyboardScanner.nextLine();
+                    send = send.concat(playlist_name).concat("|");
+                    System.out.println("What is the music name");
+                    music_name = keyboardScanner.nextLine();
+                    send = send.concat(music_name);
+                }
+                else{
+                    System.out.println(NO_LOGIN);
+                    return null;
+                }
+            }
+            else if(readKeyboard.matches("18")){
+                if (loggedIn){
+                    String album_name,music_name;
+                    send = "18|";
+                    send = send.concat(this.username).concat("|");
+                    System.out.println("What is the album name");
+                    album_name = keyboardScanner.nextLine();
+                    send = send.concat(album_name).concat("|");
+                    System.out.println("What is the music name");
+                    music_name = keyboardScanner.nextLine();
+                    send = send.concat(music_name);
+                }
+                else{
+                    System.out.println(NO_LOGIN);
+                    return null;
+                }
+            }
+            else if(readKeyboard.matches("19")){
+                if (loggedIn){
+                    String album_name,music_name;
+                    send = "19|";
+                    send = send.concat(this.username).concat("|");
+                    System.out.println("What is the album name");
+                    album_name = keyboardScanner.nextLine();
+                    send = send.concat(album_name).concat("|");
                     System.out.println("What is the music name");
                     music_name = keyboardScanner.nextLine();
                     send = send.concat(music_name);
