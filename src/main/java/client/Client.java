@@ -46,11 +46,11 @@ public class Client {
             if (readKeyboard.matches(("1"))) {
                 if (!loggedIn){
                     String username, password;
-                    send = "1_";
+                    send = "1|";
                     System.out.println("Insert your username:");
                     username = keyboardScanner.nextLine();
                     this.username = username;
-                    send = send.concat(username).concat("_");
+                    send = send.concat(username).concat("|");
                     System.out.println("Insert your password:");
                     password = keyboardScanner.next();
                     send = send.concat(password);
@@ -63,7 +63,7 @@ public class Client {
             }
             else if (readKeyboard.matches("2")) {
                 if (loggedIn){
-                    send = "2_";
+                    send = "2|";
                     send = send.concat(this.username);
                 }
                 else{
@@ -74,16 +74,16 @@ public class Client {
             else if (readKeyboard.matches("3")) {
                 if (!loggedIn){
                     String username, password,first,last;
-                    send = "3_";
+                    send = "3|";
                     System.out.println("Insert your username:");
                     username = keyboardScanner.nextLine();
-                    send = send.concat(username).concat("_");
+                    send = send.concat(username).concat("|");
                     System.out.println("Insert your password:");
                     password = keyboardScanner.nextLine();
-                    send = send.concat(password).concat("_");
+                    send = send.concat(password).concat("|");
                     System.out.println("First Name:");
                     first = keyboardScanner.nextLine();
-                    send = send.concat(first).concat("_");
+                    send = send.concat(first).concat("|");
                     System.out.println("Last Name:");
                     last = keyboardScanner.nextLine();
                     send = send.concat(last);
@@ -96,7 +96,7 @@ public class Client {
             else if (readKeyboard.matches("4")){
                 if (loggedIn){
                     String acao,tipo,name,caracteristica,edit,value,add,sql = "",artist;
-                    send ="4_";
+                    send ="4|";
                     send = send.concat(this.username).concat("_");
                     System.out.println("Do you want to alter, remove, or add?");
                     acao = keyboardScanner.nextLine();
@@ -224,7 +224,7 @@ public class Client {
                     else if(acao.matches("remove")){
                         System.out.println("Remove a artist, album, or music?");
                         tipo = keyboardScanner.nextLine();
-                        send = send.concat(tipo).concat("_");
+                        send = send.concat(tipo).concat("|");
                         System.out.println("Name?:");
                         name = keyboardScanner.nextLine();
                         send.concat(name);
@@ -238,14 +238,14 @@ public class Client {
             else if(readKeyboard.matches("5")){
                 if (loggedIn){
                     String tipo,name,sql = "";
-                    send = "5_";
-                    send = send.concat(this.username).concat("_");
+                    send = "5|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("Artist,album or music?");
                     tipo = keyboardScanner.nextLine();
                     System.out.println("Insert the name of what you want to search");
                     name = keyboardScanner.nextLine();
                     if(tipo.matches("artist")){
-                        sql = "Select * FROM artist WHERE a_name =\"" + name + "\";";
+                        sql = "Select * FROM artist WHERE aname =\"" + name + "\";";
                     }
                     else if(tipo.matches("album")){
                         sql = "Select * FROM album WHERE album_name =\"" + name + "\";";
@@ -264,11 +264,11 @@ public class Client {
             else if(readKeyboard.matches("6")){
                 if (loggedIn){
                     String name,critique,rating;
-                    send = "6_";
-                    send = send.concat(this.username).concat("_");
+                    send = "6|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("What is the critique?");
                     critique = keyboardScanner.nextLine();
-                    send = send.concat(critique).concat("_");
+                    send = send.concat(critique).concat("|");
                     System.out.println("What is the rating?");
                     rating = keyboardScanner.nextLine();
                     send = send.concat(rating);
@@ -285,8 +285,8 @@ public class Client {
             else if(readKeyboard.matches("7")){
                 if (loggedIn){
                     String target;
-                    send = "7_";
-                    send = send.concat(this.username).concat("_");
+                    send = "7|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("Insert the targer username\n");
                     target = keyboardScanner.nextLine();
                     send = send.concat(target);
@@ -299,7 +299,7 @@ public class Client {
             else if(readKeyboard.matches("8")){
                 if (loggedIn){
                     String music;
-                    send = "8_";
+                    send = "8|";
                     send = send.concat(this.username).concat("_");
                     System.out.println("Music name? (include extension):");
                     music = keyboardScanner.next();
@@ -316,8 +316,8 @@ public class Client {
             else if(readKeyboard.matches("9")){
                 if (loggedIn){
                     String target;
-                    send = "9_";
-                    send = send.concat(this.username).concat("_");
+                    send = "9|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("Insert the target username");
                     target = keyboardScanner.nextLine();
                     send.concat(target);
@@ -330,8 +330,8 @@ public class Client {
             else if(readKeyboard.matches("10")){
                 if (loggedIn){
                     String music;
-                    send = "10_";
-                    send = send.concat(this.username).concat("_");
+                    send = "10|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("Music name?: ");
                     music = keyboardScanner.nextLine();
                     send.concat(music).concat("_");
@@ -352,8 +352,8 @@ public class Client {
             else if(readKeyboard.matches("13")){
                 if (loggedIn){
                     String name;
-                    send = "13_";
-                    send = send.concat(this.username).concat("_");
+                    send = "13|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("What is the playlist name");
                     name = keyboardScanner.nextLine();
                     send = send.concat(name);
@@ -367,7 +367,7 @@ public class Client {
                 if (loggedIn){
                     String name;
                     send = "14_";
-                    send = send.concat(this.username).concat("_");
+                    send = send.concat(this.username).concat("|");
                     System.out.println("What is the playlist name");
                     name = keyboardScanner.nextLine();
                     send = send.concat(name);
@@ -380,8 +380,8 @@ public class Client {
             else if(readKeyboard.matches("15")){
                 if (loggedIn){
                     String name;
-                    send = "15_";
-                    send = send.concat(this.username).concat("_");
+                    send = "15|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("What is the playlist name");
                     name = keyboardScanner.nextLine();
                     send = send.concat(name);
@@ -393,11 +393,11 @@ public class Client {
             }else if(readKeyboard.matches("16")){
                 if (loggedIn){
                     String playlist_name,music_name;
-                    send = "16_";
-                    send = send.concat(this.username).concat("_");
+                    send = "16|";
+                    send = send.concat(this.username).concat("|");
                     System.out.println("What is the playlist name");
                     playlist_name = keyboardScanner.nextLine();
-                    send = send.concat(playlist_name).concat("_");
+                    send = send.concat(playlist_name).concat("|");
                     System.out.println("What is the music name");
                     music_name = keyboardScanner.nextLine();
                     send = send.concat(music_name);
