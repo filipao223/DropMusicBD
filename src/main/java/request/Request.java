@@ -18,6 +18,7 @@ public class Request {
     public static final int DEL_MUSIC_PLAYLIST= 17; //Remover uma musica de uma playlist
     public static final int ADD_MUSIC_ALBUM   = 18; //Adicionar musicas a um album
     public static final int DEL_MUSIC_ALBUM   = 19; //Remover de um album
+    public static final int REMOVE_ITEM       = 20; //Remover um item
 
     //Debug mode
     public static final boolean DEV_MODE = true;

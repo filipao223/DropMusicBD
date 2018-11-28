@@ -2,6 +2,7 @@ package server;
 
 import request.Request;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -161,6 +162,81 @@ public class Manage {
                 System.out.println(clientData + " | " + username
                         + " | Failed to remove music to album " + (optional==null?".":" | " + optional));
             }
+        }
+        return false;
+    }
+
+    public static boolean deleteItem(String username, String type, String name, String clientData){
+        String optional = null;
+        //Open a database connection
+        if (Connect.connect(clientData)){
+            //Check if user is editor
+            if (!CheckExistence.userIsEditor(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User is not editor.");
+                return false;
+            }
+
+            switch (type){
+                case "music":
+                    if (deleteMusic(username, name, clientData)){
+                        return true;
+                    }
+                    break;
+            }
+        }
+        return false;
+    }
+
+    private static boolean deleteMusic(String username, String music, String clientData){
+        //Check if music exists
+        if (!CheckExistence.musicExists(music)){
+            System.out.println(clientData + " | " + username
+                    + " | Music not found.");
+            return false;
+        }
+
+        //Check if this music is in any album
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM music_album WHERE music_nmusic=" +
+                    "(SELECT nmusic FROM music WHERE m_name=\"" + music + "\")");
+            if (rs.next()){
+                System.out.println(clientData + " | " + username
+                        + " | Music belongs to one or more albums.");
+                return false;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+
+        //Check if this music is in any playlist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM playlist_music WHERE music_nmusic=" +
+                    "(SELECT nmusic FROM music WHERE m_name=\"" + music + "\");");
+            if (rs.next()){
+                System.out.println(clientData + " | " + username
+                        + " | Music belongs to one or more playlists.");
+                return false;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+
+        //Remove the music
+        try{
+            Statement statement = Connect.connection.createStatement();
+            //Get music ID
+            ResultSet rs = statement.executeQuery("SELECT nmusic FROM music WHERE m_name=\"" + music + "\";");
+            if (rs.next()){
+                int id = rs.getInt("nmusic");
+                //Delete music
+                statement.executeUpdate("DELETE FROM music WHERE nmusic=" + id + ";");
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
         }
         return false;
     }
