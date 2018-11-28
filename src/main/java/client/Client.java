@@ -97,7 +97,7 @@ public class Client {
                 if (loggedIn){
                     String acao,tipo,name,caracteristica,edit,value,add,sql = "",artist;
                     send ="4|";
-                    send = send.concat(this.username).concat("_");
+                    send = send.concat(this.username).concat("|");
                     System.out.println("Do you want to alter, remove, or add?");
                     acao = keyboardScanner.nextLine();
                     //send = send.concat(acao).concat("_");
@@ -107,17 +107,17 @@ public class Client {
                         System.out.println("What is the name?");
                         name = keyboardScanner.nextLine();
                         if(tipo.matches("artist")){
-                            sql = "INSERT INTO artist (name) VALUES (\"" + name + "\");";
+                            sql = "INSERT INTO artist (a_name) VALUES (\"" + name + "\");";
                         }
                         else if(tipo.matches("album")){
                             System.out.println("What is the name of the artist that the album belongs to?");
                             artist = keyboardScanner.nextLine();
-                            sql = "INSERT INTO album (name,artist_nartist) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + name + "\"));";
+                            sql = "INSERT INTO album (album_name,artist_nartist,nartist) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + artist + "\"),(SELECT nartist FROM artist WHERE a_name =\"" + artist + "\"));";
                         }
                         else if(tipo.matches("music")){
-                            System.out.println("What is the name of the artist that the album belongs to?");
+                            System.out.println("What is the name of the artist that the music belongs to?");
                             artist = keyboardScanner.nextLine();
-                            sql = "INSERT INTO album (name,artist_nartist,users_user_id) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + name + "\"),(SELECT user_id FROM users WHERE username = \"" + this.username +"\");";
+                            sql = "INSERT INTO music (m_name,artist_nartist,users_user_id) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + artist + "\"),(SELECT user_id FROM users WHERE username = \"" + this.username +"\"));";
                         }
                         send = send.concat(sql);
                         System.out.println(send);
@@ -245,7 +245,7 @@ public class Client {
                     System.out.println("Insert the name of what you want to search");
                     name = keyboardScanner.nextLine();
                     if(tipo.matches("artist")){
-                        sql = "Select * FROM artist WHERE aname =\"" + name + "\";";
+                        sql = "Select * FROM artist WHERE a_name =\"" + name + "\";";
                     }
                     else if(tipo.matches("album")){
                         sql = "Select * FROM album WHERE album_name =\"" + name + "\";";
@@ -300,7 +300,7 @@ public class Client {
                 if (loggedIn){
                     String music;
                     send = "8|";
-                    send = send.concat(this.username).concat("_");
+                    send = send.concat(this.username).concat("|");
                     System.out.println("Music name? (include extension):");
                     music = keyboardScanner.next();
                     send = send.concat(music);
@@ -334,7 +334,7 @@ public class Client {
                     send = send.concat(this.username).concat("|");
                     System.out.println("Music name?: ");
                     music = keyboardScanner.nextLine();
-                    send.concat(music).concat("_");
+                    send.concat(music).concat("|");
                     InetAddress ip = null;
                     try {
                         ip = InetAddress.getLocalHost();
