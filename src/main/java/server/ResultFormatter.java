@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 public class ResultFormatter {
     public String format(ResultSetMetaData meta, ArrayList<Object> values){
+        if (values.isEmpty()){
+            return null;
+        }
         StringBuilder str = new StringBuilder();
         try{
             for (int i=1; i<meta.getColumnCount(); i++){
