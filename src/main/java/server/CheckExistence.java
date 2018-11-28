@@ -154,4 +154,19 @@ public class CheckExistence {
         }
         return null;
     }
+
+    public static boolean urlExists(String music){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM url WHERE music_nmusic=" +
+                    "(SELECT nmusic FROM music WHERE m_name=\"" + music + "\");");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
 }

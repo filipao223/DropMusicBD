@@ -180,6 +180,12 @@ public class Process implements Runnable {
                         callbackMessage = "Successful manage";
                     }
                     break;
+                case Request.DOWNLOAD:
+                    if (Download.download(client, tokens[1], tokens[2], clientData)){
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Successful download.");
+                        callbackMessage = "Music downloaded";
+                    }
+                    break;
             }
             if (!Callback.callback(client, callbackMessage))
                 System.out.println(clientData + " | Error sending callback message.");

@@ -1,11 +1,10 @@
 package client;
 
+import request.Request;
 import serializer.Serializer;
+import server.Connect;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -22,6 +21,7 @@ public class Client {
     private String musicUrl = null;
     private boolean loggedIn = false;
     private boolean uploading = false;
+    private boolean downloading = false;
     private String NO_LOGIN = "Not logged in";
     private String ALREADY_LOGIN = "Already logged in";
 
@@ -334,15 +334,10 @@ public class Client {
                     send = send.concat(this.username).concat("|");
                     System.out.println("Music name?: ");
                     music = keyboardScanner.nextLine();
-                    send.concat(music).concat("|");
-                    InetAddress ip = null;
-                    try {
-                        ip = InetAddress.getLocalHost();
-                    } catch (java.net.UnknownHostException e) {
-                        e.printStackTrace();
-                    }
-                    String address = ip.getHostAddress();
-                    send.concat(address);
+                    send = send.concat(music);
+
+                    this.downloading = true;
+                    this.musicUrl = music + ".mp3";
                 }
                 else{
                     System.out.println(NO_LOGIN);
@@ -421,6 +416,7 @@ public class Client {
 
         try{
             Socket server = new Socket("localhost", PORT);
+            server.setSoTimeout(TIMEOUT);
             while(true){
                 String message = message();
                 if (message == null) continue;
@@ -431,7 +427,6 @@ public class Client {
 
                 byte[] buffer;
                 try{
-                    server.setSoTimeout(TIMEOUT);
                     DataInputStream in = new DataInputStream(server.getInputStream());
                     buffer = serializer.readMessage(in);
                 } catch (SocketTimeoutException e){
@@ -447,13 +442,35 @@ public class Client {
                         File file = new File(this.musicUrl);
                         if (file != null){
                             //Convert music file to byte array
-                            byte[] fileContent = Files.readAllBytes(file.toPath());
-                            if (!serializer.writeMessage(out, fileContent, fileContent.length)){
+                            byte[] musicBuffer = Files.readAllBytes(file.toPath());
+                            if (!serializer.writeMessage(out, musicBuffer, musicBuffer.length)){
                                 System.out.println("Error writing music file to server.");
                             }
+                            uploading = false;
                         }
                         else{
                             System.out.println("File not found");
+                        }
+                    }
+                    if (this.downloading && callback.matches("Download_ok")){
+                        try{
+                            DataInputStream in = new DataInputStream(server.getInputStream());
+                            byte[] musicIn;
+                            musicIn = serializer.readMessage(in);
+                            if (buffer == null){
+                                System.out.println("Error reading music file.");
+                            }
+                            else{
+                                //Convert back to file
+                                try (FileOutputStream fos = new FileOutputStream("clientStorage/" + this.musicUrl)) {
+                                    fos.write(buffer);
+                                    this.downloading = false;
+                                } catch (Exception e){
+                                    if (Request.DEV_MODE) e.printStackTrace();
+                                }
+                            }
+                        } catch (IOException e) {
+                            if (Request.DEV_MODE) e.printStackTrace();
                         }
                     }
                     System.out.println(callback);
