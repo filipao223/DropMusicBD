@@ -35,6 +35,7 @@ public class ResultFormatter {
                     }
                     str.append(" ");
                     values.remove(0);
+                    if (values.isEmpty()) break;
                 }
                 str.append('\n');
             }
