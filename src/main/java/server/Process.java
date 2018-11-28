@@ -204,6 +204,12 @@ public class Process implements Runnable {
                         callbackMessage = "Removed item from database";
                     }
                     break;
+                case Request.SHARE:
+                    if (Manage.share(tokens[1], tokens[2], clientData)){
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Shared with user.");
+                        callbackMessage = "Shared with user";
+                    }
+                    break;
             }
             if (!Callback.callback(client, callbackMessage))
                 System.out.println(clientData + " | Error sending callback message.");

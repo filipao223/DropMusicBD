@@ -49,4 +49,19 @@ public class Permission {
         }
         return false;
     }
+
+    public static boolean musicShared(String username, String music){
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM shared WHERE users_user_id=" +
+                    "(SELECT users_user_id FROM music WHERE m_name=\"" + music + "\") AND id_shareduser=" +
+                    "(SELECT user_id FROM users WHERE username=\"" + username + "\");");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

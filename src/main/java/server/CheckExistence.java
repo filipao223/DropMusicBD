@@ -2,6 +2,7 @@ package server;
 
 import request.Request;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -196,6 +197,21 @@ public class CheckExistence {
             }
         } catch (SQLException e) {
             if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean userSharedTarget(String username, String target){
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM shared WHERE users_user_id=" +
+                    "(SELECT user_id FROM users WHERE username=\"" + username + "\") AND id_shareduser=" +
+                    "(SELECT user_id FROM users WHERE username=\"" + target + "\");");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }

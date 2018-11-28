@@ -328,4 +328,35 @@ public class Manage {
         }
         return false;
     }
+
+    public static boolean share(String username, String target, String clientData){
+        //Connect to database
+        if (Connect.connect(clientData)){
+            //Check if target exists
+            if (!CheckExistence.userExists(target)){
+                System.out.println(clientData + " | " + target + " | User not found.");
+                return false;
+            }
+
+            //Check if user is not already sharing with target
+            if (CheckExistence.userSharedTarget(username, target)){
+                System.out.println(clientData + " | " + username + " | "
+                        + target + " | User is already sharing with target.");
+                return false;
+            }
+
+            //Update the table value
+            try{
+                Statement statement = Connect.connection.createStatement();
+                statement.executeUpdate("INSERT INTO shared (id_shareduser, users_user_id) VALUES " +
+                        "((SELECT user_id FROM users WHERE username=\"" + target + "\"), " +
+                        "(SELECT user_id FROM users WHERE username=\"" + username + "\"));");
+                Connect.disconnect(clientData);
+                return true;
+            } catch (SQLException e) {
+                if (Request.DEV_MODE) e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

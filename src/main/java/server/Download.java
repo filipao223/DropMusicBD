@@ -27,9 +27,12 @@ public class Download {
 
             //Check if user is music uploader
             if (!Permission.ownsMusic(username, music)){
-                System.out.println(clientData + " | " + username
-                        + " | You don't own this music.");
-                return false;
+                //Check if this user has access to this music
+                if (!Permission.musicShared(username, music)){
+                    System.out.println(clientData + " | " + username
+                            + " | You don't have access to this music.");
+                    return false;
+                }
             }
 
             //Check if there is a url for the music
