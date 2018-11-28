@@ -20,3 +20,5 @@ REMOVE MUSIC FROM PLAYLIST
 17_username_playlistname_music
 REMOVE PLAYLIST
 14_username_playlistname
+18_username_album_music
+19_username_album_music
