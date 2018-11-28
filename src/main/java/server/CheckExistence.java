@@ -169,4 +169,20 @@ public class CheckExistence {
         }
         return false;
     }
+
+    public static boolean musicInAlbum(String music, String album){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM music_album WHERE music_nmusic=" +
+                    "(SELECT nmusic FROM music WHERE m_name=\"" + music + "\") AND album_nalbum=" +
+                    "(SELECT nalbum FROM album WHERE album_name=\"" + album + "\");");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
 }

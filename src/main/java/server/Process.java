@@ -186,6 +186,11 @@ public class Process implements Runnable {
                         callbackMessage = "Music downloaded";
                     }
                     break;
+                case Request.ADD_MUSIC_ALBUM:
+                    if (Manage.addMusicToAlbum(tokens[1], tokens[2], tokens[3], clientData)){
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | " + tokens[3] + " | Added music to album.");
+                        callbackMessage = "Added music to album";
+                    }
             }
             if (!Callback.callback(client, callbackMessage))
                 System.out.println(clientData + " | Error sending callback message.");
