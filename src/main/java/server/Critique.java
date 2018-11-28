@@ -5,7 +5,20 @@ import request.Request;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that handles critiques
+ */
 public class Critique {
+
+    /**
+     * Make a critique to given album from given user.
+     * @param username name of the user that wants to write a critique
+     * @param text body of the critique
+     * @param rating integer rating, from 1 to 5
+     * @param albumName name of the album
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean critique(String username, String text, int rating, String albumName, String clientData){
         String optional = null;
         //server.Connect to database

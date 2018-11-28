@@ -6,7 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that checks the existence of varied items on the database
+ */
 public class CheckExistence {
+
+    /**
+     * Checks if given user exists on the database
+     * @param username username of the user to check
+     * @return true/false
+     */
     public static boolean userExists(String username){
         //Connection will exist
         try{
@@ -21,6 +30,11 @@ public class CheckExistence {
         return true;
     }
 
+    /**
+     * Checks if given user is an editor.
+     * @param username username of the user to check.
+     * @return true/false
+     */
     public static boolean userIsEditor(String username){
         //Connection will exist
         try{
@@ -35,6 +49,11 @@ public class CheckExistence {
         return false;
     }
 
+    /**
+     * Checks if a given album exists.
+     * @param albumName name of the album to check
+     * @return true/false
+     */
     public static boolean albumExists(String albumName){
         //Connection will exist
         try{
@@ -49,6 +68,12 @@ public class CheckExistence {
         return false;
     }
 
+    /**
+     * Checks if a critique from that user on that album already exists.
+     * @param username name of the user
+     * @param albumName name of the album
+     * @return true/false
+     */
     public static boolean critiqueExists(String username, String albumName){
         //Connection will exist
         try{
@@ -66,6 +91,11 @@ public class CheckExistence {
         return false;
     }
 
+    /**
+     * Checks if given playlist name already exists
+     * @param name name of the playlist
+     * @return true/false
+     */
     public static boolean playlistExists(String name){
         //Connection will exist
         try{
@@ -80,6 +110,11 @@ public class CheckExistence {
         return false;
     }
 
+    /**
+     * Checks if given music name already exists
+     * @param music name of the music
+     * @return true/false
+     */
     public static boolean musicExists(String music){
         //Connection will exist
         try{
@@ -94,6 +129,12 @@ public class CheckExistence {
         return false;
     }
 
+    /**
+     * Checks if given playlist has given music
+     * @param playlist name of the playlist
+     * @param music name of the music
+     * @return true/false
+     */
     public static int[] playlistHasMusic(String playlist, String music){
         //Connection will exist
         try{

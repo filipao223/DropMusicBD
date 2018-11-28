@@ -6,7 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that checks if a user permissions
+ */
 public class Permission {
+
+    /**
+     * Checks if given user owns given playlist
+     * @param username name of the user
+     * @param playlist name of the playlist
+     * @return true/false
+     */
     public static boolean ownsPlaylist(String username, String playlist){
         //Database connection will exist
         try{

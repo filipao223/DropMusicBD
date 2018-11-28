@@ -8,7 +8,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Class responsible for performing search queries on the database.
+ */
 public class Search {
+
+    /**
+     * Executes given SQL query as parameter. After getting ResultSet, results are placed in a linked list and columns in an array
+     * and formatted using {@link server.ResultFormatter#format(ResultSetMetaData, ArrayList)}.
+     * @param query valid SQL query to run on the database.
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean search(String query, String clientData){
         String optional = null;
         //server.Connect to database

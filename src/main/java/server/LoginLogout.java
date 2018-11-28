@@ -6,7 +6,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+/**
+ * Class that handles login and logout
+ */
 public class LoginLogout {
+
+    /**
+     * Login given username as parameter
+     * @param username name of the user
+     * @param password password of the user
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean login(String username, String password, String clientData){
         //server.Connect to database
         String optional = null;
@@ -38,6 +49,12 @@ public class LoginLogout {
         return false;
     }
 
+    /**
+     * Logout given user as parameter
+     * @param username name of the user
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean logout(String username, String clientData){
         //server.Connect to database
         String optional = null;

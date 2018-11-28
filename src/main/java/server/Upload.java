@@ -11,9 +11,21 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class responsible for uploading files to the server and storing them on disk
+ */
 public class Upload {
     private static Serializer serializer = new Serializer();
 
+    /**
+     * Receives byte array from given socket, and converts it to a file on disk.
+     * Also stores URL on the database with {@link #updateURL(String, String, String, String)}.
+     * @param client the client's socket.
+     * @param username the client's username.
+     * @param music name of the music to be added.
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean upload(Socket client, String username, String music, String clientData){
         //Remove file extension from music name
         String[] tokens = music.split("\\.");
@@ -59,6 +71,14 @@ public class Upload {
         return false;
     }
 
+    /**
+     * Adds music url to database
+     * @param username the client's username.
+     * @param music name of the music.
+     * @param url music file location on disk.
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     private static boolean updateURL(String username, String music, String url, String clientData){
         String optional = null;
         //Database connection will exist

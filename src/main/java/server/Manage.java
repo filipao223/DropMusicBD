@@ -5,7 +5,18 @@ import request.Request;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that handles editor privileges
+ */
 public class Manage {
+
+    /**
+     * Makes given target user an editor
+     * @param username name of the user who is making the change
+     * @param target name of the user which is to be made an user
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean makeEditor(String username, String target, String clientData){
         //server.Connect to database
         String optional = null;

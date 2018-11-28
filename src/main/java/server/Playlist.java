@@ -6,7 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that handles playlist operations
+ */
 public class Playlist {
+
+    /**
+     * Creates a playlist with given name
+     * @param username name of the user that created the playlist
+     * @param name name of the playlist
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean createPlaylist(String username, String name, String clientData){
         String optional = null;
         //Open a database connection
@@ -43,6 +54,13 @@ public class Playlist {
         return false;
     }
 
+    /**
+     * Removes given playlist, checking if given user owns said playlist
+     * @param username name of the user
+     * @param playlist name of the playlist
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean removePlaylist(String username, String playlist, String clientData){
         String optional = null;
         //Open database connection
@@ -77,6 +95,14 @@ public class Playlist {
         return false;
     }
 
+    /**
+     * Adds given music to a playlist, checking if given user owns playlist
+     * @param username name of the user
+     * @param playlist name of the playlist
+     * @param music name of the music
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean addMusicToPlaylist(String username, String playlist, String music, String clientData){
         String optional = null;
         //Open a database connection
@@ -112,6 +138,14 @@ public class Playlist {
         return false;
     }
 
+    /**
+     * Removes given music name from the given playlist
+     * @param username name of the user
+     * @param playlist name of the playlist
+     * @param music name of the music
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean removeMusicFromPlaylist(String username, String playlist, String music, String clientData){
         String optional = null;
         //Open a database connection
@@ -146,6 +180,13 @@ public class Playlist {
         return false;
     }
 
+    /**
+     * Shares a playlist, checking if user owns it first
+     * @param username name of the user
+     * @param playlist name of the playlist
+     * @param clientData basic client data, such as IP and port.
+     * @return true/false
+     */
     public static boolean sharePlaylist(String username, String playlist, String clientData){
         String optional = null;
         //Open a database connection
@@ -171,6 +212,13 @@ public class Playlist {
         return false;
     }
 
+    /**
+     * Checks if user and playlist exists, and if user owns playlist
+     * @param username name of the user
+     * @param clientData basic client data, such as IP and port.
+     * @param playlist name of the playlist
+     * @return true/false
+     */
     private static boolean checkExistenceAndOwner(String username, String clientData, String playlist){
         //Check if user exists
         if (!CheckExistence.userExists(username)){

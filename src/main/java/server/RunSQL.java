@@ -5,7 +5,17 @@ import request.Request;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class that runs given SQL code on the database
+ */
 public class RunSQL {
+
+    /**
+     * Runs given SQL query in the database.
+     * @param sql valid SQL query.
+     * @param clientData basic client data, such as IP and port
+     * @return true/false
+     */
     public static boolean runSQL(String sql, String clientData){
         String optional = null;
         //OPen a database connection
