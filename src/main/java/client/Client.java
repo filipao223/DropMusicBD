@@ -112,7 +112,7 @@ public class Client {
                         else if(tipo.matches("album")){
                             System.out.println("What is the name of the artist that the album belongs to?");
                             artist = keyboardScanner.nextLine();
-                            sql = "INSERT INTO album (album_name,artist_nartist,nartist) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + artist + "\"),(SELECT nartist FROM artist WHERE a_name =\"" + artist + "\"));";
+                            sql = "INSERT INTO album (album_name,artist_nartist) VALUES (\"" + name + "\",(SELECT nartist FROM artist WHERE a_name =\"" + artist + "\"));";
                         }
                         else if(tipo.matches("music")){
                             System.out.println("What is the name of the artist that the music belongs to?");
