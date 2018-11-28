@@ -364,7 +364,7 @@ public class Client {
             else if(readKeyboard.matches("14")){
                 if (loggedIn){
                     String name;
-                    send = "14_";
+                    send = "14|";
                     send = send.concat(this.username).concat("|");
                     System.out.println("What is the playlist name");
                     name = keyboardScanner.nextLine();
