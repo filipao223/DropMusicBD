@@ -446,15 +446,15 @@ public class Client {
                 }
             }else if(readKeyboard.matches("20")){
                 if (loggedIn){
-                    String tipo,name;
+                    String album_name,music_name;
                     send = "20|";
                     send = send.concat(this.username).concat("|");
-                    System.out.println("Remove a artist, album, or music?");
-                    tipo = keyboardScanner.nextLine();
-                    send = send.concat(tipo).concat("|");
-                    System.out.println("Name?:");
-                    name = keyboardScanner.nextLine();
-                    send.concat(name);
+                    System.out.println("What is the album name");
+                    album_name = keyboardScanner.nextLine();
+                    send = send.concat(album_name).concat("|");
+                    System.out.println("What is the music name");
+                    music_name = keyboardScanner.nextLine();
+                    send = send.concat(music_name);
                 }
                 else{
                     System.out.println(NO_LOGIN);
