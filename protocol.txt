@@ -6,6 +6,7 @@ REGISTER
 3_username_password_firstname_lastname
 MANAGE
 4_username_sql
+caso especial "remove" 4_username_tipo_nome(album/musica/artist) cuidado com as tabelas album_music e playlist_music
 SEARCH
 5_username_sql
 CRITIQUE
