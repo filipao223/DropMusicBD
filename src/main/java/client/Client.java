@@ -428,9 +428,6 @@ public class Client {
                     System.out.println("Error writing message to server");
                 }
 
-                // TODO get callback
-                // TODO depending on callback, set loggedIn to true
-
                 byte[] buffer;
                 DataInputStream in = new DataInputStream(server.getInputStream());
                 buffer = serializer.readMessage(in);
