@@ -26,7 +26,7 @@ public class Client {
         String user_name = " ";
         String send = "";
 
-            System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n11.Upload a music\n12.Share musics\n13.Download a music\n20.Create a playlist\n21.Remove a playlist\n22.Turn a playlist public/private\n23.Add music to a playlist");
+            System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n8.Upload a music\n9.Share musics\n10.Download a music\n13.Create a playlist\n14.Remove a playlist\n15.Turn a playlist public/private\n16.Add music to a playlist");
             readKeyboard = keyboardScanner.nextLine();
             if (readKeyboard.matches(("1"))) {
                 String username, password;
@@ -242,15 +242,13 @@ public class Client {
                 target = keyboardScanner.nextLine();
                 send = send.concat(target);
             }
-            else if(readKeyboard.matches("11")){
-                String username,music;
-                send = "11";
-                System.out.println("Insert your username:\n");
-                username = keyboardScanner.nextLine();
-                send.concat(username);
+            else if(readKeyboard.matches("8")){
+                String music;
+                send = "8_";
+                send = send.concat(user_name).concat("_");
                 System.out.println("Music name?: ");
                 music = keyboardScanner.nextLine();
-                send.concat(music);
+                send.concat(music).concat("_");
                 InetAddress ip = null;
                 try {
                     ip = InetAddress.getLocalHost();
@@ -260,25 +258,21 @@ public class Client {
                 String address = ip.getHostAddress();
                 send.concat(address);
             }
-            else if(readKeyboard.matches("12")){
-                String username,target;
-                send = "12";
-                System.out.println("Insert your username:");
-                username = keyboardScanner.nextLine();
-                send.concat(username);
-                System.out.println("Insert the targer username");
+            else if(readKeyboard.matches("9")){
+                String target;
+                send = "9_";
+                send = send.concat(user_name).concat("_");
+                System.out.println("Insert the target username");
                 target = keyboardScanner.nextLine();
                 send.concat(target);
             }
-            else if(readKeyboard.matches("13")){
-                String username,music;
-                send = "13";
-                System.out.println("Insert your username:\n");
-                username = keyboardScanner.nextLine();
-                send.concat(username);
+            else if(readKeyboard.matches("10")){
+                String music;
+                send = "10_";
+                send = send.concat(user_name).concat("_");
                 System.out.println("Music name?: ");
                 music = keyboardScanner.nextLine();
-                send.concat(music);
+                send.concat(music).concat("_");
                 InetAddress ip = null;
                 try {
                     ip = InetAddress.getLocalHost();
@@ -288,32 +282,32 @@ public class Client {
                 String address = ip.getHostAddress();
                 send.concat(address);
             }
-            else if(readKeyboard.matches("20")){
+            else if(readKeyboard.matches("13")){
                 String name;
-                send = "20_";
+                send = "13_";
                 send = send.concat(user_name).concat("_");
                 System.out.println("What is the playlist name");
                 name = keyboardScanner.nextLine();
                 send = send.concat(name);
             }
-            else if(readKeyboard.matches("21")){
+            else if(readKeyboard.matches("14")){
                 String name;
-                send = "21_";
+                send = "14_";
                 send = send.concat(user_name).concat("_");
                 System.out.println("What is the playlist name");
                 name = keyboardScanner.nextLine();
                 send = send.concat(name);
             }
-            else if(readKeyboard.matches("22")){
+            else if(readKeyboard.matches("15")){
                 String name;
-                send = "22_";
+                send = "15_";
                 send = send.concat(user_name).concat("_");
                 System.out.println("What is the playlist name");
                 name = keyboardScanner.nextLine();
                 send = send.concat(name);
-            }else if(readKeyboard.matches("23")){
+            }else if(readKeyboard.matches("16")){
                 String playlist_name,music_name;
-                send = "23_";
+                send = "16_";
                 send = send.concat(user_name).concat("_");
                 System.out.println("What is the playlist name");
                 playlist_name = keyboardScanner.nextLine();
