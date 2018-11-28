@@ -240,18 +240,21 @@ public class Client {
                     String tipo,name,sql = "";
                     send = "5|";
                     send = send.concat(this.username).concat("|");
-                    System.out.println("Artist,album or music?");
+                    System.out.println("Artist,album, music or playlist?");
                     tipo = keyboardScanner.nextLine();
                     System.out.println("Insert the name of what you want to search");
                     name = keyboardScanner.nextLine();
                     if(tipo.matches("artist")){
-                        sql = "Select * FROM artist WHERE a_name =\"" + name + "\";";
+                        sql = "SELECT * FROM artist WHERE a_name LIKE \'" + name + "%\';";
                     }
                     else if(tipo.matches("album")){
-                        sql = "Select * FROM album WHERE album_name =\"" + name + "\";";
+                        sql = "SELECT * FROM album WHERE album_name LIKE \'" + name + "%\';";
                     }
                     else if(tipo.matches("music")){
-                        sql = "Select * FROM music WHERE m_name =\"" + name + "\";";
+                        sql = "SELECT * FROM music WHERE m_name LIKE \'" + name + "%\';";
+                    }
+                    else if (tipo.matches("playlist")){
+                        sql = "SELECT * FROM playlist WHERE p_name LIKE \'" + name + "%\';";
                     }
                     send = send.concat(sql);
                     System.out.println(send);

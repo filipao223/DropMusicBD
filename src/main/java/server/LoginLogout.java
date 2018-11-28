@@ -2,6 +2,7 @@ package server;
 
 import request.Request;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
@@ -30,6 +31,20 @@ public class LoginLogout {
                 return false;
             }
 
+            //Check if user exists with user/password combo
+            try{
+                Statement stmt = Connect.connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username=\"" + username + "\" AND " +
+                        "user_password=\"" + password + "\"");
+                if (!rs.next()){
+                    System.out.println(clientData + " | " + username + " | Wrong username/password");
+                    return false;
+                }
+            } catch (SQLException e) {
+                if (Request.DEV_MODE) e.printStackTrace();
+            }
+
+            //Update login value
             try{
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("UPDATE users SET login=1, last_login=\""
