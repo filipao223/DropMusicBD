@@ -191,6 +191,12 @@ public class Process implements Runnable {
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | " + tokens[3] + " | Added music to album.");
                         callbackMessage = "Added music to album";
                     }
+                    break;
+                case Request.DEL_MUSIC_ALBUM:
+                    if (Manage.removeMusicFromAlbum(tokens[1], tokens[2], tokens[3], clientData)){
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | " + tokens[3] + " | Removed music from album.");
+                        callbackMessage = "Removed music from album";
+                    }
             }
             if (!Callback.callback(client, callbackMessage))
                 System.out.println(clientData + " | Error sending callback message.");

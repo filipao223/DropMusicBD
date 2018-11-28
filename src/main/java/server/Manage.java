@@ -102,7 +102,7 @@ public class Manage {
                 Statement statement = Connect.connection.createStatement();
                 statement.executeUpdate("INSERT INTO music_album (music_nmusic, album_nalbum) VALUES " +
                         "((SELECT nmusic FROM music WHERE m_name=\"" + music + "\"), " +
-                        "(SELECT nalbum FROM album WHERE album_name=\"" + album + "\");");
+                        "(SELECT nalbum FROM album WHERE album_name=\"" + album + "\"));");
                 Connect.disconnect(clientData);
                 return true;
             } catch (SQLException e) {
@@ -110,6 +110,56 @@ public class Manage {
                 if (Request.DEV_MODE) e.printStackTrace();
                 System.out.println(clientData + " | " + username
                         + " | Failed to add music to album " + (optional==null?".":" | " + optional));
+            }
+        }
+        return false;
+    }
+
+    public static boolean removeMusicFromAlbum(String username, String album, String music, String clientData){
+        String optional = null;
+        //Open a database connection
+        if (Connect.connect(clientData)){
+            //Check if user is editor
+            if (!CheckExistence.userIsEditor(username)){
+                System.out.println(clientData + " | " + username
+                        + " | User is not editor.");
+                return false;
+            }
+
+            //Check if music exists
+            if (!CheckExistence.musicExists(music)){
+                System.out.println(clientData + " | " + username
+                        + " | Music not found.");
+                return false;
+            }
+
+            //Check if album exists
+            if (!CheckExistence.albumExists(album)){
+                System.out.println(clientData + " | " + username
+                        + " | Album not found.");
+                return false;
+            }
+
+            //Check if music is in the album
+            if (!CheckExistence.musicInAlbum(music, album)){
+                System.out.println(clientData + " | " + username
+                        + " | Music not in album.");
+                return false;
+            }
+
+            //Remove the music from the album
+            try{
+                Statement statement = Connect.connection.createStatement();
+                statement.executeUpdate("DELETE FROM music_album WHERE music_nmusic=" +
+                        "(SELECT nmusic FROM music WHERE m_name=\"" + music + "\") AND album_nalbum=" +
+                        "(SELECT nalbum FROM album WHERE album_name=\"" + album + "\");");
+                Connect.disconnect(clientData);
+                return true;
+            } catch (SQLException e) {
+                if (e.getMessage()!=null) optional = e.getMessage();
+                if (Request.DEV_MODE) e.printStackTrace();
+                System.out.println(clientData + " | " + username
+                        + " | Failed to remove music to album " + (optional==null?".":" | " + optional));
             }
         }
         return false;
