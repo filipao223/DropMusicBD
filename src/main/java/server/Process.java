@@ -148,6 +148,6 @@ public class Process implements Runnable {
     }
 
     private String[] tokenizer(String main){
-        return main.split("_");
+        return main.split("\\|");
     }
 }
