@@ -26,18 +26,20 @@ public class Process implements Runnable {
         //Read the data sent
         byte[] buffer;
         try{
-            DataInputStream in = new DataInputStream(client.getInputStream());
-            buffer = serializer.readMessage(in);
-            if (buffer == null){
-                System.out.println(clientData + " | Error reading message.");
-                return;
+            while (true){
+                DataInputStream in = new DataInputStream(client.getInputStream());
+                buffer = serializer.readMessage(in);
+                if (buffer == null){
+                    System.out.println(clientData + " | Error reading message.");
+                    return;
+                }
+
+                System.out.println(clientData + " | Received: " + new String(buffer));
+                //Decode feature requested
+                String[] tokens = tokenizer(new String(buffer));
+
+                handleRequest(tokens);
             }
-
-            System.out.println(clientData + " | Received: " + new String(buffer));
-            //Decode feature requested
-            String[] tokens = tokenizer(new String(buffer));
-
-            handleRequest(tokens);
 
         } catch (IOException e) {
             if (Request.DEV_MODE) e.printStackTrace();
@@ -49,54 +51,80 @@ public class Process implements Runnable {
         //Format: feature_username_sql
         //if login: feature_username_password
         // TODO validate user data
+        String callbackMessage = "Error";
 
         try{
             switch(Integer.parseInt(tokens[0])){
                 case Request.LOGIN:
-                    if (LoginLogout.login(tokens[1], tokens[2], clientData))
+                    if (LoginLogout.login(tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | Logged in.");
+                        callbackMessage = "Login";
+                    }
                     break;
                 case Request.LOGOUT:
-                    if (LoginLogout.logout(tokens[1], clientData))
+                    if (LoginLogout.logout(tokens[1], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | Logged out.");
+                        callbackMessage = "Logout";
+                    }
                     break;
                 case Request.REGISTER:
-                    if (Register.register(tokens[1], tokens[2], tokens[3], tokens[4], clientData))
+                    if (Register.register(tokens[1], tokens[2], tokens[3], tokens[4], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | Registered.");
+                        callbackMessage = "Registered";
+                    }
                     break;
                 case Request.MAKE_EDITOR:
-                    if (Manage.makeEditor(tokens[1], tokens[2], clientData))
+                    if (Manage.makeEditor(tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | Made \"" + tokens[2] + "\" an editor.");
+                        callbackMessage = "Made \"" + tokens[2] + "\" an editor.";
+                    }
                     break;
                 case Request.SEARCH:
-                    if (Search.search(tokens[2], clientData))
+                    if (Search.search(tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | Successful query.");
+                        callbackMessage = "Successful query";
+                    }
                     break;
                 case Request.CRITIQUE:
-                    if (Critique.critique(tokens[1], tokens[2], Integer.parseInt(tokens[3]), tokens[4], clientData))
+                    if (Critique.critique(tokens[1], tokens[2], Integer.parseInt(tokens[3]), tokens[4], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[3] + " | Uploaded critique.");
+                        callbackMessage = "Uploaded critique";
+                    }
                     break;
                 case Request.ADD_PLAYLIST:
-                    if (Playlist.createPlaylist(tokens[1], tokens[2], clientData))
+                    if (Playlist.createPlaylist(tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | Created playlist.");
+                        callbackMessage = "Created playlist";
+                    }
                     break;
                 case Request.ADD_MUSIC_PLAYLIST:
-                    if (Playlist.addMusicToPlaylist(tokens[1], tokens[2], tokens[3], clientData))
+                    if (Playlist.addMusicToPlaylist(tokens[1], tokens[2], tokens[3], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | " + tokens[3] + " | Added music to playlist.");
+                        callbackMessage = "Added music to playlist";
+                    }
                     break;
                 case Request.DEL_MUSIC_PLAYLIST:
-                    if (Playlist.removeMusicFromPlaylist(tokens[1], tokens[2], tokens[3], clientData))
+                    if (Playlist.removeMusicFromPlaylist(tokens[1], tokens[2], tokens[3], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | " + tokens[3] + " | Removed music from playlist.");
+                        callbackMessage = "Removed music from playlist";
+                    }
                     break;
                 case Request.REMOVE_PLAYLIST:
-                    if (Playlist.removePlaylist(tokens[1], tokens[2], clientData))
+                    if (Playlist.removePlaylist(tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Removed playlist.");
+                        callbackMessage = "Removed playlist";
+                    }
                     break;
                 case Request.SHARE_PLAYLIST:
-                    if (Playlist.sharePlaylist(tokens[1], tokens[2], clientData))
+                    if (Playlist.sharePlaylist(tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Shared playlist.");
+                        callbackMessage = "Shared playlist";
+                    }
                     break;
             }
+            if (!Callback.callback(client, callbackMessage))
+                System.out.println(clientData + " | Error sending callback message.");
+
             Connect.disconnect(clientData);
         } catch (Exception e){
             if (Request.DEV_MODE) e.printStackTrace();
