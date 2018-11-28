@@ -41,7 +41,7 @@ public class Client {
         //String user_name = "";
         String send = "";
 
-            System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit, add, or remove albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n8.Upload a music\n9.Share musics\n10.Download a music\n13.Create a playlist\n14.Remove a playlist\n15.Turn a playlist public/private\n16.Add music to a playlist\n17.Remove a music from a playlist\n18.Add a music to a album\n19.Delete a music from a album");
+            System.out.println("What do you want to do(insert the number):\n1.Login\n2.Logout\n3.Register\n4.Edit or add albuns,artist or musics\n5.Search for musics, artists or albuns\n6.Write a critique to a album\n7.Give editing privileges\n8.Upload a music\n9.Share musics\n10.Download a music\n13.Create a playlist\n14.Remove a playlist\n15.Turn a playlist public/private\n16.Add music to a playlist\n17.Remove a music from a playlist\n18.Add a music to a album\n19.Delete a music from a album\n20.Remove a artist,album,or music");
             readKeyboard = keyboardScanner.nextLine();
             if (readKeyboard.matches(("1"))) {
                 if (!loggedIn){
@@ -98,7 +98,7 @@ public class Client {
                     String acao,tipo,name,caracteristica,edit,value,add,sql = "",artist;
                     send ="4|";
                     send = send.concat(this.username).concat("|");
-                    System.out.println("Do you want to alter, remove, or add?");
+                    System.out.println("Do you want to alter or add?");
                     acao = keyboardScanner.nextLine();
                     //send = send.concat(acao).concat("_");
                     if(acao.matches("add")){
@@ -220,14 +220,6 @@ public class Client {
                         }
                         send = send.concat(sql);
                         System.out.println(send);
-                    }
-                    else if(acao.matches("remove")){
-                        System.out.println("Remove a artist, album, or music?");
-                        tipo = keyboardScanner.nextLine();
-                        send = send.concat(tipo).concat("|");
-                        System.out.println("Name?:");
-                        name = keyboardScanner.nextLine();
-                        send.concat(name);
                     }
                 }
                 else{
@@ -447,6 +439,22 @@ public class Client {
                     System.out.println("What is the music name");
                     music_name = keyboardScanner.nextLine();
                     send = send.concat(music_name);
+                }
+                else{
+                    System.out.println(NO_LOGIN);
+                    return null;
+                }
+            }else if(readKeyboard.matches("20")){
+                if (loggedIn){
+                    String tipo,name;
+                    send = "20|";
+                    send = send.concat(this.username).concat("|");
+                    System.out.println("Remove a artist, album, or music?");
+                    tipo = keyboardScanner.nextLine();
+                    send = send.concat(tipo).concat("|");
+                    System.out.println("Name?:");
+                    name = keyboardScanner.nextLine();
+                    send.concat(name);
                 }
                 else{
                     System.out.println(NO_LOGIN);
