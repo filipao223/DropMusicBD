@@ -129,6 +129,20 @@ public class CheckExistence {
         return false;
     }
 
+    public static boolean artistExists(String artist){
+        //Connection will exist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM artist WHERE a_name=\"" + artist + "\";");
+            if (rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
+
     /**
      * Checks if given playlist has given music
      * @param playlist name of the playlist

@@ -183,6 +183,11 @@ public class Manage {
                         return true;
                     }
                     break;
+                case "artist":
+                    if (deleteArtist(username, name, clientData)){
+                        return true;
+                    }
+                    break;
             }
         }
         return false;
@@ -233,6 +238,45 @@ public class Manage {
                 int id = rs.getInt("nmusic");
                 //Delete music
                 statement.executeUpdate("DELETE FROM music WHERE nmusic=" + id + ";");
+                return true;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean deleteArtist(String username, String artist, String clientData){
+        //Check if artist exists
+        if (!CheckExistence.artistExists(artist)){
+            System.out.println(clientData + " | " + username
+                    + " | Artist not found.");
+            return false;
+        }
+
+        //Check if any albums have this artist
+        try{
+            Statement stmt = Connect.connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM album WHERE artist_nartist=" +
+                    "(SELECT nartist FROM artist WHERE a_name=\"" + artist + "\")");
+            if (rs.next()){
+                System.out.println(clientData + " | " + username
+                        + " | Artist has one or more albums.");
+                return false;
+            }
+        } catch (SQLException e) {
+            if (Request.DEV_MODE) e.printStackTrace();
+        }
+
+        //Delete the artist
+        try{
+            Statement statement = Connect.connection.createStatement();
+            //Get artist ID
+            ResultSet rs = statement.executeQuery("SELECT nartist FROM artist WHERE a_name=\"" + artist + "\";");
+            if (rs.next()){
+                int id = rs.getInt("nartist");
+                //Delete music
+                statement.executeUpdate("DELETE FROM artist WHERE nartist=" + id + ";");
                 return true;
             }
         } catch (SQLException e) {
