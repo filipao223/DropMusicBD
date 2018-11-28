@@ -4,6 +4,7 @@ import request.Request;
 import serializer.Serializer;
 
 import java.io.DataInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -119,6 +120,13 @@ public class Process implements Runnable {
                     if (Playlist.sharePlaylist(tokens[1], tokens[2], clientData)){
                         System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2] + " | Shared playlist.");
                         callbackMessage = "Shared playlist";
+                    }
+                    break;
+                case Request.UPLOAD:
+                    System.out.println("Starting upload");
+                    if (Upload.upload(client, tokens[1], tokens[2], clientData)){
+                        System.out.println(clientData + " | " + tokens[1] + " | " + tokens[2].split("\\.")[0] + " | Music uploaded.");
+                        callbackMessage = "Music uploaded";
                     }
                     break;
             }

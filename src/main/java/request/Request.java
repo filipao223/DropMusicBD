@@ -11,8 +11,6 @@ public class Request {
     public static final int UPLOAD            = 8; //fazer upload de uma musica para o server
     public static final int SHARE             = 9; //Share de uma musica com users
     public static final int DOWNLOAD          = 10; //Download de musicas do servidor
-    public static final int CALLBACK          = 11; //Packet returned after processing in server
-    public static final int UPLOAD_MUSIC      = 12; //Upload de musicas para o servidor
     public static final int ADD_PLAYLIST      = 13; //Criar nova playlist
     public static final int REMOVE_PLAYLIST   = 14; //Remover uma playlist
     public static final int SHARE_PLAYLIST    = 15; //Tornar playlist publica/privada

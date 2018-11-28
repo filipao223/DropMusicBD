@@ -106,3 +106,7 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+
+# Ignore music folders
+clientStorage/
+serverStorage/

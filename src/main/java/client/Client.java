@@ -4,18 +4,24 @@ import serializer.Serializer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
 import java.util.*;
 
 public class Client {
     private int PORT = 16667;
     private String address;
     private Serializer serializer = new Serializer();
+    private int TIMEOUT = 15000;
     private String username = "";
+    private String musicUrl = null;
     private boolean loggedIn = false;
+    private boolean uploading = false;
     private String NO_LOGIN = "Not logged in";
     private String ALREADY_LOGIN = "Already logged in";
 
@@ -295,17 +301,12 @@ public class Client {
                     String music;
                     send = "8_";
                     send = send.concat(this.username).concat("_");
-                    System.out.println("Music name?: ");
-                    music = keyboardScanner.nextLine();
-                    send.concat(music).concat("_");
-                    InetAddress ip = null;
-                    try {
-                        ip = InetAddress.getLocalHost();
-                    } catch (java.net.UnknownHostException e) {
-                        e.printStackTrace();
-                    }
-                    String address = ip.getHostAddress();
-                    send.concat(address);
+                    System.out.println("Music name? (include extension):");
+                    music = keyboardScanner.next();
+                    send = send.concat(music);
+
+                    this.musicUrl = "clientStorage/" + music;
+                    this.uploading = true;
                 }
                 else{
                     System.out.println(NO_LOGIN);
@@ -425,16 +426,36 @@ public class Client {
                 if (message == null) continue;
                 DataOutputStream out = new DataOutputStream(server.getOutputStream());
                 if (!serializer.writeMessage(out, message.getBytes(), message.length())) {
-                    System.out.println("Error writing message to server");
+                    System.out.println("Error writing message to server.");
                 }
 
                 byte[] buffer;
-                DataInputStream in = new DataInputStream(server.getInputStream());
-                buffer = serializer.readMessage(in);
+                try{
+                    server.setSoTimeout(TIMEOUT);
+                    DataInputStream in = new DataInputStream(server.getInputStream());
+                    buffer = serializer.readMessage(in);
+                } catch (SocketTimeoutException e){
+                    System.out.println("A read has timed out");
+                    continue;
+                }
                 if (buffer != null){
                     String callback = new String(buffer);
                     if (callback.matches("Login")) loggedIn = true;
                     if (callback.matches("Logout")) loggedIn = false;
+                    if (this.uploading && callback.matches("Upload_ok")){
+                        //Upload the music file
+                        File file = new File(this.musicUrl);
+                        if (file != null){
+                            //Convert music file to byte array
+                            byte[] fileContent = Files.readAllBytes(file.toPath());
+                            if (!serializer.writeMessage(out, fileContent, fileContent.length)){
+                                System.out.println("Error writing music file to server.");
+                            }
+                        }
+                        else{
+                            System.out.println("File not found");
+                        }
+                    }
                     System.out.println(callback);
                 }
             }
