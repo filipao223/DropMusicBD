@@ -323,7 +323,7 @@ public class Client {
                     send = send.concat(this.username).concat("|");
                     System.out.println("Insert the target username");
                     target = keyboardScanner.nextLine();
-                    send.concat(target);
+                    send = send.concat(target);
                 }
                 else{
                     System.out.println(NO_LOGIN);
